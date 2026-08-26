@@ -1,0 +1,2340 @@
+87% of storage used … If you run out, you can't create, edit, and upload files. Share 100 GB of storage with your family members for $1.99/mo.
+1
+100%
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cal Job Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600;6..72,700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F6F7FA;
+    --surface-1:#FFFFFF;
+    --surface-2:#EFF1F5;
+    --border:#E1E4EA;
+    --gridline:#EAECF1;
+    --text-primary:#161A22;
+    --text-secondary:#4C5361;
+    --text-muted:#8A90A0;
+    --accent:#2E5AAC;
+    --accent-bg:#E7EEFB;
+    --good:#1E8A5C;
+    --good-bg:#E3F5EA;
+    --warn:#A9670A;
+    --warn-bg:#FBF0DC;
+    --weak:#6B7280;
+    --weak-bg:#EEF0F4;
+    --shadow: 0 1px 2px rgba(20,24,34,.04), 0 8px 24px -12px rgba(20,24,34,.10);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0E1117;
+      --surface-1:#161A22;
+      --surface-2:#1D222C;
+      --border:#2A3040;
+      --gridline:#242A38;
+      --text-primary:#EDEFF4;
+      --text-secondary:#AEB4C2;
+      --text-muted:#767D8C;
+      --accent:#7DA2F0;
+      --accent-bg:rgba(125,162,240,.14);
+      --good:#4FDB9C;
+      --good-bg:rgba(79,219,156,.13);
+      --warn:#F0B94E;
+      --warn-bg:rgba(240,185,78,.13);
+      --weak:#9AA1B0;
+      --weak-bg:rgba(154,161,176,.11);
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1117;
+    --surface-1:#161A22;
+    --surface-2:#1D222C;
+    --border:#2A3040;
+    --gridline:#242A38;
+    --text-primary:#EDEFF4;
+    --text-secondary:#AEB4C2;
+    --text-muted:#767D8C;
+    --accent:#7DA2F0;
+    --accent-bg:rgba(125,162,240,.14);
+    --good:#4FDB9C;
+    --good-bg:rgba(79,219,156,.13);
+    --warn:#F0B94E;
+    --warn-bg:rgba(240,185,78,.13);
+    --weak:#9AA1B0;
+    --weak-bg:rgba(154,161,176,.11);
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{animation-duration:.001ms !important; transition-duration:.001ms !important;} }
+
+  body{
+    background:var(--bg);
+    color:var(--text-primary);
+    font-family:'Inter',system-ui,sans-serif;
+    line-height:1.5;
+    padding-bottom:80px;
+  }
+  a{color:inherit}
+  :focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:4px}
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+
+  /* ---------- TOP BAR ---------- */
+  .topbar{
+    max-width:1280px;margin:0 auto;padding:28px 24px 8px;
+    display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  }
+  .masthead h1{
+    font-family:'Newsreader',Georgia,serif;
+    font-weight:600;
+    font-size:clamp(26px,3.4vw,34px);
+    letter-spacing:-0.01em;
+    text-wrap:balance;
+  }
+  .masthead .eyebrow{
+    font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+    margin-bottom:6px;
+  }
+  .topbar-meta{display:flex;align-items:center;gap:14px}
+  .updated-chip{
+    font-size:12px;color:var(--text-secondary);
+    background:var(--surface-1);border:1px solid var(--border);border-radius:100px;
+    padding:6px 12px;display:flex;align-items:center;gap:6px;
+  }
+  .updated-chip .dot{width:6px;height:6px;border-radius:50%;background:var(--good)}
+  .theme-toggle{
+    border:1px solid var(--border);background:var(--surface-1);color:var(--text-secondary);
+    border-radius:100px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;
+  }
+  .theme-toggle:hover{color:var(--text-primary);border-color:var(--accent)}
+
+  /* ---------- STAT TILES ---------- */
+  .stat-row{
+    max-width:1280px;margin:18px auto 0;padding:0 24px;
+    display:grid;grid-template-columns:repeat(5,1fr);gap:12px;
+  }
+  @media (max-width:760px){ .stat-row{grid-template-columns:repeat(2,1fr)} }
+  @media (min-width:761px) and (max-width:980px){ .stat-row{grid-template-columns:repeat(3,1fr)} }
+  .stat-tile{
+    background:var(--surface-1);border:1px solid var(--border);border-radius:14px;padding:16px 18px;
+    box-shadow:var(--shadow);
+  }
+  .stat-tile .stat-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted)}
+  .stat-tile .stat-value{font-family:'JetBrains Mono',monospace;font-size:26px;font-weight:700;margin-top:6px;font-variant-numeric:tabular-nums}
+  .stat-tile .stat-value.v-good{color:var(--good)}
+  .stat-tile .stat-value.v-accent{color:var(--accent)}
+
+  /* ---------- FILTER BAR ---------- */
+  .filter-bar{
+    max-width:1280px;margin:16px auto 0;padding:0 24px;
+    display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+  }
+  .filter-btn{
+    padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:var(--surface-1);
+    color:var(--text-secondary);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;
+  }
+  .filter-btn:hover{border-color:var(--accent);color:var(--text-primary)}
+  .filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .applied-toggle{padding:6px 14px;border-radius:100px;border:1px solid var(--border);background:var(--surface-1);color:var(--text-secondary);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;margin-left:6px}
+  .applied-toggle:hover{border-color:var(--good);color:var(--text-primary)}
+  .applied-toggle.active{background:var(--good);border-color:var(--good);color:#fff}
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-header{ max-width:1280px; margin:32px auto 12px; padding:0 24px;}
+  .section-header h2{ font-family:'Newsreader',Georgia,serif; font-weight:600; font-size:19px; margin:0 0 4px 0; letter-spacing:-0.01em; }
+  .section-header .subtitle{ color:var(--text-secondary); font-size:12.5px; max-width:720px; line-height:1.6; }
+
+  /* ---------- TABLE CARD ---------- */
+  .table-card{
+    max-width:1280px;margin:16px auto 0;padding:0 24px;
+  }
+  .gig-card, .gov-card, .local-card { max-width:1280px; margin:0 auto; }
+  .table-scroll{
+    background:var(--surface-1);border:1px solid var(--border);border-radius:16px;overflow-x:auto;box-shadow:var(--shadow);
+  }
+  table{width:100%;border-collapse:collapse;min-width:820px}
+  thead th{
+    text-align:left;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);
+    padding:14px 16px;border-bottom:1px solid var(--gridline);white-space:nowrap;
+  }
+  tbody tr.row{cursor:pointer;border-bottom:1px solid var(--gridline)}
+  tbody tr.row:last-child{border-bottom:none}
+  tbody tr.row:hover{background:var(--surface-2)}
+  tbody td{padding:13px 16px;font-size:13.5px;vertical-align:middle;color:var(--text-primary)}
+  .chev-cell{width:28px}
+  .chevron{display:inline-block;color:var(--text-muted);transition:transform .15s ease;font-size:11px}
+  tr.row.open .chevron{transform:rotate(90deg)}
+  .source-badge{
+    font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--text-secondary);
+    background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:3px 7px;white-space:nowrap;
+  }
+  .role-cell{display:flex;align-items:center;gap:10px}
+  .avatar{
+    width:30px;height:30px;border-radius:8px;background:var(--accent-bg);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;
+  }
+  .role-text{min-width:0}
+  .role-title{font-weight:600;font-size:13.5px;white-space:normal}
+  .role-company{font-size:12px;color:var(--text-secondary);margin-top:1px}
+  .mono-cell{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text-secondary);white-space:nowrap}
+  .fit-badge{font-size:11px;font-weight:700;padding:4px 9px;border-radius:100px;white-space:nowrap}
+  .fit-strong{background:var(--good-bg);color:var(--good)}
+  .fit-possible{background:var(--warn-bg);color:var(--warn)}
+  .fit-weak{background:var(--weak-bg);color:var(--weak)}
+  .status-pill{font-size:11px;font-weight:700;padding:4px 9px;border-radius:100px;background:var(--accent-bg);color:var(--accent);white-space:nowrap}
+  .status-pill.status-new{background:var(--accent-bg);color:var(--accent)}
+  .status-pill.status-applied{background:var(--good-bg);color:var(--good)}
+  .apply-link{font-size:12.5px;font-weight:700;color:var(--accent);text-decoration:none;white-space:nowrap}
+  .apply-link:hover{text-decoration:underline}
+
+  .remote-pill{ display:inline-block; padding:1px 7px; border-radius:999px; background:var(--good-bg); color:var(--good); font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; margin-right:6px; }
+  .civic-pill{ display:inline-block; padding:1px 7px; border-radius:999px; background:var(--accent-bg); color:var(--accent); font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; margin-right:6px; }
+
+  /* ---------- DETAIL ROWS ---------- */
+  tr.detail-row td{padding:0;border-bottom:1px solid var(--gridline)}
+  tr.detail-row.hidden{display:none}
+  .detail-inner{padding:6px 20px 20px 54px;background:var(--surface-2)}
+  .gaps-block .d-row{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:8px 0}
+  .d-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);padding-top:2px}
+  .d-value{font-size:13px;color:var(--text-secondary);line-height:1.65}
+
+  .tailor-block { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--gridline); }
+  .applied-block { margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--gridline); }
+  .copy-row { display: flex; gap: 8px; margin-top: 6px; }
+  .copy-input { flex: 1 1 auto; min-width: 0; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-1); color: var(--text-primary); font-size: 12.5px; font-family: inherit; }
+  .copy-btn { flex: 0 0 auto; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--accent); color: #fff; font-size: 12.5px; font-weight: 600; cursor: pointer; }
+  .copy-btn:hover { opacity: 0.9; }
+  .copy-btn.copied { background: var(--good); }
+
+  /* ---------- GIG NOTE ---------- */
+  .gig-note { max-width: 1280px; margin: 12px auto 0; padding:0 24px; font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  .gig-note a { color: var(--accent); text-decoration: none; }
+  .gig-note a:hover { text-decoration: underline; }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    max-width:1280px;margin:40px auto 0;padding:20px 24px 0;border-top:1px solid var(--border);
+    font-size:12px;color:var(--text-muted);line-height:1.7;
+  }
+  footer a{color:var(--accent);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="masthead">
+      <div class="eyebrow">Daily Job Search Scan</div>
+      <h1>Cal Job Tracker</h1>
+    </div>
+    <div class="topbar-meta">
+      <span class="updated-chip"><span class="dot"></span> Updated Aug 26, 2026</span>
+      <button type="button" class="theme-toggle" id="themeToggle">Toggle theme</button>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-tile">
+      <div class="stat-label">Tracked (IT / creative)</div>
+      <div class="stat-value v-accent">12</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Strong matches</div>
+      <div class="stat-value v-good">3</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Possible matches</div>
+      <div class="stat-value">2</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">New today, all tracks</div>
+      <div class="stat-value v-accent">40</div>
+    </div>
+    <div class="stat-tile">
+      <div class="stat-label">Applied</div>
+      <div class="stat-value v-good" id="appliedCount">0</div>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button type="button" class="filter-btn active" data-filter="all">All</button>
+    <button type="button" class="filter-btn" data-filter="strong">Strong</button>
+    <button type="button" class="filter-btn" data-filter="possible">Possible</button>
+    <button type="button" class="filter-btn" data-filter="weak">Weak</button>
+    <button type="button" class="applied-toggle" id="appliedToggle">Applied only</button>
+  </div>
+
+  <div class="table-card">
+    <div class="table-scroll">
+      <table id="jobTable">
+        <thead>
+          <tr>
+            <th></th><th>Source</th><th>Role</th><th>Location</th><th>Posted</th><th>Fit</th><th>Status</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="jobTableBody">
+      <tr class="row" data-detail="job-1" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">T</span>
+            <div class="role-text">
+              <div class="role-title">IT Specialist</div>
+              <div class="role-company">TechOp Solutions</div>
+            </div>
+          </div>
+        </td>
+        <td>Washington, DC</td>
+        <td class="mono-cell">Aug 23, 2026</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aac2gpyxrzzx" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-1">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">IT / Infrastructure</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">5+ years IT/Systems Administrator experience required, Cal&#x27;s 8 years at AOUSC as a Senior Systems Engineer clears that easily. The role supports government stakeholders and requires the ability to pass a government background check, both of which map directly onto his federal, legislative branch adjacent background and existing background investigation eligibility.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Requires Salesforce CRM experience, which is not part of Cal&#x27;s documented stack. Amazon Web Services cloud contact center experience is listed as preferred, not required, and Cal has acknowledged limited AWS depth.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the IT Specialist role at TechOp Solutions (Washington, DC). Posting: https://to.indeed.com/aac2gpyxrzzx" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the IT Specialist role at TechOp Solutions as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+              <tr class="row" data-detail="job-2" data-fit="strong" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">A</span>
+            <div class="role-text">
+              <div class="role-title">Systems Administrator - VMware / Infrastructure</div>
+              <div class="role-company">Alchemy</div>
+            </div>
+          </div>
+        </td>
+        <td>Remote</td>
+        <td class="mono-cell">Aug 25, 2026</td>
+        <td><span class="fit-badge fit-strong">Strong match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aa4j4mbnbjv8" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-2">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">IT / Infrastructure</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Requires 5+ years hands-on VMware vSphere, vCenter and ESXi administration, which is the core of Cal&#x27;s 15+ years at SEC and AOUSC managing full application lifecycle across dev, test and prod in vCenter. Also asks for Windows and Linux server administration, disaster recovery, and ITSM/incident and change management, all things Cal has documented at AOUSC (BladeLogic backups, SOPs and back-out plans, ITIL practices). Fully remote, contract, no clearance required.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Cisco UCS hardware/firmware and Fiber Channel storage administration are not part of Cal&#x27;s documented experience. His Linux administration depth is lighter than his Windows/VMware background, worth naming up front rather than overclaiming.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Systems Administrator - VMware / Infrastructure role at Alchemy (Remote). Posting: https://to.indeed.com/aa4j4mbnbjv8" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Systems Administrator - VMware / Infrastructure role at Alchemy as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="job-3" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Dice</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">R</span>
+            <div class="role-text">
+              <div class="role-title">Manager, IT Field Services</div>
+              <div class="role-company">Radiology Partners</div>
+            </div>
+          </div>
+        </td>
+        <td>Remote</td>
+        <td class="mono-cell">Aug 23, 2026</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.dice.com/job-detail/8bd15c09-018f-4a52-ab36-96d774ea54dc?utm_source=claude-user&amp;utm_medium=mcp" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-3">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">IT / Infrastructure</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Wants 15 years of IT experience, which Cal clears, plus ServiceNow and Windows support experience he already has from SEC and AOUSC. Fully remote and pays $120,000 to $135,000, well above his floor.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Role wants at least 5 years specifically in a management or supervisory title. Cal&#x27;s SEC and AOUSC tenure was senior escalation-point and individual-contributor work, not a documented people-management role, so this is a real gap to address head on in a cover letter. Healthcare imaging systems (PACS/RIS) are also unfamiliar territory.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Manager, IT Field Services role at Radiology Partners (Remote). Posting: https://www.dice.com/job-detail/8bd15c09-018f-4a52-ab36-96d774ea54dc?utm_source=claude-user&amp;utm_medium=mcp" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Manager, IT Field Services role at Radiology Partners as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="job-4" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">A</span>
+            <div class="role-text">
+              <div class="role-title">Video Producer, Washington Video</div>
+              <div class="role-company">The Associated Press</div>
+            </div>
+          </div>
+        </td>
+        <td>Washington, DC</td>
+        <td class="mono-cell">Aug 25, 2026</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aa246gz7k74v" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-4">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Creative / production</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">DC-based and no clearance required. Cal&#x27;s Wade Media event photography and videography credits at venues like the Kennedy Center and Howard Theatre show real production and storytelling instinct.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Posting wants 3+ years of full-time daily newsroom video editing experience with DaVinci Resolve, plus regular on-camera dispatches covering live DC politics. Cal&#x27;s creative background is event-based production, not daily broadcast newsroom work, a genuine gap against this specific posting rather than a stretch fit.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Video Producer, Washington Video role at The Associated Press (Washington, DC). Posting: https://to.indeed.com/aa246gz7k74v" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Video Producer, Washington Video role at The Associated Press as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="job-5" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">N</span>
+            <div class="role-text">
+              <div class="role-title">Associate Systems Engineer (Azure Data)</div>
+              <div class="role-company">Navy Federal Credit Union</div>
+            </div>
+          </div>
+        </td>
+        <td>Vienna, VA</td>
+        <td class="mono-cell">Aug 24, 2026</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aaxxc86xqjds" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-5">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">IT / Infrastructure</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Vienna, VA is DC-metro commutable, and Cal&#x27;s PowerShell and SQL Server background gives him some real overlap with data pipeline tooling and SDLC/Agile process.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">This is scoped as an Associate-level role for 0 to 2 years of experience in Azure data engineering, Python/Java/SQL pipeline work. Against Cal&#x27;s 15+ years of senior Windows/VMware infrastructure experience, this is a level and domain mismatch rather than a natural next step.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Associate Systems Engineer (Azure Data) role at Navy Federal Credit Union (Vienna, VA). Posting: https://to.indeed.com/aaxxc86xqjds" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Associate Systems Engineer (Azure Data) role at Navy Federal Credit Union as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="job-6" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Dice</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">G</span>
+            <div class="role-text">
+              <div class="role-title">Tier 1 Support Analyst</div>
+              <div class="role-company">Gridiron IT Solutions</div>
+            </div>
+          </div>
+        </td>
+        <td>Remote</td>
+        <td class="mono-cell">Aug 24, 2026</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.dice.com/job-detail/0115e067-4098-4a7d-9cad-97a4ee4842d2?utm_source=claude-user&amp;utm_medium=mcp" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-6">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">IT / Infrastructure</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Fully remote at $35 to $45/hr, and the case-based, SOP-driven support work overlaps with the ServiceNow and documentation habits Cal built at AOUSC and SEC. A fast, low-friction fallback option.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Tier 1 help desk scope sits well below Cal&#x27;s 15+ years of senior systems engineering experience. Real risk of being screened out as overqualified, so this is a bridge option rather than a target role.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Tier 1 Support Analyst role at Gridiron IT Solutions (Remote). Posting: https://www.dice.com/job-detail/0115e067-4098-4a7d-9cad-97a4ee4842d2?utm_source=claude-user&amp;utm_medium=mcp" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Tier 1 Support Analyst role at Gridiron IT Solutions as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="job-7" data-fit="strong" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">I</span>
+            <div class="role-text">
+              <div class="role-title">IT Systems Administrator</div>
+              <div class="role-company">Information Systems and Networks Corporation (ISN)</div>
+            </div>
+          </div>
+        </td>
+        <td>Bethesda, MD</td>
+        <td class="mono-cell">Aug 25, 2026</td>
+        <td><span class="fit-badge fit-strong">Strong match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aa72cbslqbw7" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-7">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 26, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">IT / Infrastructure</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Seeking a senior IT System Administrator with 8 to 10 years of experience managing servers, networks, Microsoft 365, and network storage, exactly the shape of Cal&#x27;s 15+ years at SEC and AOUSC. Core requirements (Windows Server, Active Directory, DNS/DHCP, Group Policy, Microsoft 365, Entra ID, Teams, SharePoint, Tier 3 escalation support) map directly onto his documented background. Bethesda is a straightforward DC metro commute, pay is $100,000 to $125,000, and only a standard pre-employment background investigation is required, consistent with his Public Trust eligibility.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Role also calls for hands-on VoIP/SIP phone system administration and NAS/SAN network storage appliance management, neither of which is part of Cal&#x27;s documented experience. No CCNA, Network+, or similar networking certification on hand either.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the IT Systems Administrator role at Information Systems and Networks Corporation (ISN) (Bethesda, MD). Posting: https://to.indeed.com/aa72cbslqbw7" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the IT Systems Administrator role at Information Systems and Networks Corporation (ISN) as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="job-8" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">S</span>
+            <div class="role-text">
+              <div class="role-title">Chief Engineer</div>
+              <div class="role-company">Sinclair Broadcast Group (TNND)</div>
+            </div>
+          </div>
+        </td>
+        <td>Arlington, VA</td>
+        <td class="mono-cell">Aug 25, 2026</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aadnpnblfn6n" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-8">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 26, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Creative / broadcast IT</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">A broadcast production technology leadership role at a major broadcaster (TNND national news desk) in the DC metro area, paying $130,000 to $150,000, no clearance required. Sits inside the creative-entertainment/broadcast track Cal is building via Wade Media, and general Windows/macOS/Linux systems administration and IT-adjacent skills do transfer.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">This is a Chief Engineer role requiring 5+ years specifically in live TV news control-room engineering with hands-on mastery of Ross OverDrive automated production control and Ross XPression graphics systems, plus direct leadership of a broadcast engineering team and an irregular on-call live-news schedule. None of that specific broadcast automation depth is part of Cal&#x27;s documented experience, so this is a real reach rather than a near-term target.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Chief Engineer role at Sinclair Broadcast Group (TNND) (Arlington, VA). Posting: https://to.indeed.com/aadnpnblfn6n" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Chief Engineer role at Sinclair Broadcast Group (TNND) as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="job-9" data-fit="strong" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">S</span>
+            <div class="role-text">
+              <div class="role-title">Windows Systems Administrator</div>
+              <div class="role-company">Sienna Systems</div>
+            </div>
+          </div>
+        </td>
+        <td>Alexandria, VA</td>
+        <td class="mono-cell">Aug 26, 2026</td>
+        <td><span class="fit-badge fit-strong">Strong match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aaj2fczfxkhw" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-9">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 26, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">IT / Infrastructure</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">6+ years of systems administration and extensive Windows Server / VMware ESX/ESXi experience map directly onto Cal&#x27;s 15+ years administering Windows Server and VMware vSphere/vCenter at SEC and AOUSC. IIS and SQL Server administration, daily monitoring, backups, and Tier II/III support are all things he has documented. Requires only Public Trust suitability, not an active clearance. On-site in Alexandria, VA is a workable commute from Upper Marlboro. Salary $112,500 to $117,500 is solidly in range.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Requires SCCM (Microsoft ADS/SMS/SUS/SCCM) for software distribution and patch management, which is not part of Cal&#x27;s documented toolset; he has used PowerShell and Ansible for that instead. No Security+ or VMware certification currently held, both listed as preferred rather than required.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Windows Systems Administrator role at Sienna Systems (Alexandria, VA). Posting: https://to.indeed.com/aaj2fczfxkhw" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Windows Systems Administrator role at Sienna Systems as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="job-10" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">C</span>
+            <div class="role-text">
+              <div class="role-title">IT Project Administrator</div>
+              <div class="role-company">Catholic Diocese of Arlington</div>
+            </div>
+          </div>
+        </td>
+        <td>Arlington, VA</td>
+        <td class="mono-cell">Aug 25, 2026</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aa4xmx8n4429" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-10">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 26, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">IT / Infrastructure</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">The role coordinates IT project documentation, status reporting, and stakeholder communication, areas Cal has handled through SOPs, change requests, and architecture documentation at SEC and AOUSC.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">This is a 1 to 3 year IT project coordination/administration role at $70,000 to $80,000, well below Cal&#x27;s 15+ years of senior systems engineering experience and target compensation floor. It is a project coordination seat, not hands-on systems engineering, so it would be a real step down in scope and pay.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the IT Project Administrator role at Catholic Diocese of Arlington (Arlington, VA). Posting: https://to.indeed.com/aa4xmx8n4429" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the IT Project Administrator role at Catholic Diocese of Arlington as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="job-11" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">T</span>
+            <div class="role-text">
+              <div class="role-title">Windows System Administrator - CESO</div>
+              <div class="role-company">TEKsystems (Leidos program)</div>
+            </div>
+          </div>
+        </td>
+        <td>Arlington, VA</td>
+        <td class="mono-cell">Aug 24, 2026</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aacz2yh6nzzd" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-11">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 26, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">IT / Infrastructure</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Core Windows Server, Active Directory, GPO, and VMware administration requirements match Cal&#x27;s background, and the PowerShell scripting requirement lines up with his automation work at SEC.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">This supports the Compartmented Enterprise Services Office and lists TS/SCI with CI Polygraph as a preferred (not required) qualification on a DISA STIG/SCAP-heavy compliance program. Cal holds Public Trust eligibility only, not an active clearance, so despite the "preferred" wording this is very likely a functional requirement in practice. Also a 100% on-site, 2nd-shift (noon to 8pm) contract role at $50 to $65 an hour, below his target compensation.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Windows System Administrator - CESO role at TEKsystems (Leidos program) (Arlington, VA). Posting: https://to.indeed.com/aacz2yh6nzzd" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Windows System Administrator - CESO role at TEKsystems (Leidos program) as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="job-12" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">M</span>
+            <div class="role-text">
+              <div class="role-title">IT Systems Technical Specialist</div>
+              <div class="role-company">Maryland State Board of Elections</div>
+            </div>
+          </div>
+        </td>
+        <td>Annapolis, MD</td>
+        <td class="mono-cell">Aug 24, 2026</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aac46rgvgl7f" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="job-12">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 26, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">IT / Infrastructure</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">The 7+ years of IT systems experience requirement is easily cleared by Cal&#x27;s 15+ years, and the role sits inside Maryland state government.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Despite the posted title, the actual posting is for a Senior Security Engineer specializing in EDR, vulnerability scanning, and domain security tools (CrowdStrike, Tenable, Palo Alto), a dedicated cybersecurity specialist role rather than Cal&#x27;s systems administration/infrastructure background. Annapolis is roughly 50 minutes from Upper Marlboro, outside his core DC metro commute range. No SANS/GIAC or CEH certification held.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the IT Systems Technical Specialist role at Maryland State Board of Elections (Annapolis, MD). Posting: https://to.indeed.com/aac46rgvgl7f" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the IT Systems Technical Specialist role at Maryland State Board of Elections as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+</tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section-header">
+    <h2>Gig &amp; 1099 Income &mdash; Remote-First Bridge Track</h2>
+    <div class="subtitle">Not IT-specific &mdash; contract, hourly, and freelance work to supplement income while the primary search continues. Remote positions only, sorted with the strongest fits first.</div>
+  </div>
+  <div class="table-card gig-card">
+    <div class="table-scroll">
+      <table id="gigTable">
+        <thead>
+          <tr>
+            <th></th><th>Source</th><th>Role</th><th>Location</th><th>Posted</th><th>Fit</th><th>Status</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="gigTableBody">
+      <tr class="row" data-detail="gig-1" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Dice</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">C</span>
+            <div class="role-text">
+              <div class="role-title">IT Integration Analyst (Healthcare)</div>
+              <div class="role-company">Calance</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="remote-pill">Remote</span> Remote, East Coast</td>
+        <td class="mono-cell">Aug 22, 2026</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.dice.com/job-detail/45dceba4-002e-4256-b840-38ff0661e674?utm_source=claude-user&amp;utm_medium=mcp" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gig-1">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Bridge income, remote gig / 1099 / contract</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Remote with an East Coast requirement that matches Cal&#x27;s DC metro base. The work is stakeholder coordination, application migration and decommission planning, and running structured meetings, close to the change management and cross team coordination work Cal did at AOUSC.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Healthcare sector M&amp;A integration is new territory for Cal. The posting lists workplace types as both Remote and On-Site, worth confirming the actual hybrid expectation before applying.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the IT Integration Analyst (Healthcare) role at Calance (Remote, East Coast). Posting: https://www.dice.com/job-detail/45dceba4-002e-4256-b840-38ff0661e674?utm_source=claude-user&amp;utm_medium=mcp" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the IT Integration Analyst (Healthcare) role at Calance as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gig-2" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Dice</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">C</span>
+            <div class="role-text">
+              <div class="role-title">IT Project Manager</div>
+              <div class="role-company">ChaTeck Incorporated</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="remote-pill">Remote</span> Kohler, WI</td>
+        <td class="mono-cell">Aug 21, 2026</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.dice.com/job-detail/17184a6b-11e7-449f-8833-09e8995500e8?utm_source=claude-user&amp;utm_medium=mcp" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gig-2">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Bridge income, remote gig / 1099 / contract</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Remote contract IT project management work, aligned with the SOPs, change requests, and project coordination Cal handled inside his federal systems engineering role.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">No PMP certification, a gap Cal has already flagged in his materials. The listing gives limited detail on required tools or methodology beyond the title.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the IT Project Manager role at ChaTeck Incorporated (Kohler, WI). Posting: https://www.dice.com/job-detail/17184a6b-11e7-449f-8833-09e8995500e8?utm_source=claude-user&amp;utm_medium=mcp" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the IT Project Manager role at ChaTeck Incorporated as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gig-3" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">ZipRecruiter</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">8</span>
+            <div class="role-text">
+              <div class="role-title">Mid Level Linux Administrator</div>
+              <div class="role-company">8 Consulting LLC</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="remote-pill">Remote</span> Tampa, FL</td>
+        <td class="mono-cell">~Aug 23, 2026 (1 day ago)</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.ziprecruiter.com/job-redirect?match_token=CpcBChZ4MkZIOFN1VjlHeVRBLVkxbjhGVjRBEiQwMWEwMzMzYy0zOWExLTdhZjUtYTRlZC1lOTBjYWVkYzJiM2MaU0FBR0w3Q0J2Q0dHekhDVGM2LXRpbWZMUEJ6T3BVX29VUGlTUW1rNm9TRVQ5RlZ2ekdMMno5OUMxUVR4VThUQjBqVXNsR0I1UzBpQmZUcjM4YXgwIMmtBRABGMmtBQ%3D%3D&amp;tsid=100000502" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gig-3">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Bridge income, remote gig / 1099 / contract</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Remote contract, strong pay at $87,500 to $133,000, and core systems administration overlap with Cal&#x27;s background.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Cal has stated limited Linux proficiency relative to his deep Windows Server and VMware background, so this stretches a known gap rather than playing to strength. ZipRecruiter&#x27;s summary gave no further job description beyond title, company, and pay, the full posting needs a manual look.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Mid Level Linux Administrator role at 8 Consulting LLC (Tampa, FL). Posting: https://www.ziprecruiter.com/job-redirect?match_token=CpcBChZ4MkZIOFN1VjlHeVRBLVkxbjhGVjRBEiQwMWEwMzMzYy0zOWExLTdhZjUtYTRlZC1lOTBjYWVkYzJiM2MaU0FBR0w3Q0J2Q0dHekhDVGM2LXRpbWZMUEJ6T3BVX29VUGlTUW1rNm9TRVQ5RlZ2ekdMMno5OUMxUVR4VThUQjBqVXNsR0I1UzBpQmZUcjM4YXgwIMmtBRABGMmtBQ%3D%3D&amp;tsid=100000502" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Mid Level Linux Administrator role at 8 Consulting LLC as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gig-4" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">ZipRecruiter</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">L</span>
+            <div class="role-text">
+              <div class="role-title">Application Analyst</div>
+              <div class="role-company">LRS</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="remote-pill">Remote</span> Remote (US)</td>
+        <td class="mono-cell">~Aug 22, 2026 (2 days ago)</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.ziprecruiter.com/job-redirect?match_token=Co8BChZBOEtSWDNlT1Z5cjNhS2ZIOWp4Y0NREiQwMWEwMzMzYi0zOWExLTdhZjktYTFjNy02ZmYyNDhiODMwMDYaS0FBSDlCa09lb25HYjAya2tjR2tJV1BTS0FRTElwNnBDUTJ5X2VwRXlERVNKeFZhdEN6ZjJrMDRzS2lzbmZuX1NYb3RkaDJVTEUyWSDJrQUQARjJrQU%3D&amp;tsid=100000502" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gig-4">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Bridge income, remote gig / 1099 / contract</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Remote contract with a strong pay range at $130,000 to $170,000, and a generalist Analyst title that plausibly fits Cal&#x27;s systems and applications support background.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">ZipRecruiter&#x27;s listing gave no description beyond title, company, and pay, needs a manual look at the full posting before treating this as more than a possible fit.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Application Analyst role at LRS (Remote (US)). Posting: https://www.ziprecruiter.com/job-redirect?match_token=Co8BChZBOEtSWDNlT1Z5cjNhS2ZIOWp4Y0NREiQwMWEwMzMzYi0zOWExLTdhZjktYTFjNy02ZmYyNDhiODMwMDYaS0FBSDlCa09lb25HYjAya2tjR2tJV1BTS0FRTElwNnBDUTJ5X2VwRXlERVNKeFZhdEN6ZjJrMDRzS2lzbmZuX1NYb3RkaDJVTEUyWSDJrQUQARjJrQU%3D&amp;tsid=100000502" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Application Analyst role at LRS as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gig-5" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">ZipRecruiter</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">V</span>
+            <div class="role-text">
+              <div class="role-title">Personal Assistant</div>
+              <div class="role-company">Visionary Financial Education</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="remote-pill">Remote</span> Idaho Falls, ID</td>
+        <td class="mono-cell">~Aug 22, 2026 (2 days ago)</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.ziprecruiter.com/job-redirect?match_token=Co8BChYzek53Q1IwMHJxWkl5c0RyUHk0aG1BEiQwMWEwMzMzYy0zMzlkLTc3OWQtYjdjZS1jYzZhODk4OTBlYzYaS0FBRUh1eF8wbUlyWXJpZTZ4dEx2VWtvUzFFRzJ1U0tXaUZsX2ljT0ZzRHpkSmNidDZMMV9UXzZncmFrVXZ0T2JnU2w4NFByMno4QSDJrQUQARjJrQU%3D&amp;tsid=100000502" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gig-5">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Bridge income, remote gig / 1099 / contract</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Fully remote contractor role, general admin and scheduling work Cal can start without added credentialing, at a reasonable bridge rate ($36,000 to $70,000 annualized).</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Not IT related and outside Cal&#x27;s core technical lane, pure bridge income with no long term career alignment. Company and role scope are thin in the listing, worth a manual look before applying.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Personal Assistant role at Visionary Financial Education (Idaho Falls, ID). Posting: https://www.ziprecruiter.com/job-redirect?match_token=Co8BChYzek53Q1IwMHJxWkl5c0RyUHk0aG1BEiQwMWEwMzMzYy0zMzlkLTc3OWQtYjdjZS1jYzZhODk4OTBlYzYaS0FBRUh1eF8wbUlyWXJpZTZ4dEx2VWtvUzFFRzJ1U0tXaUZsX2ljT0ZzRHpkSmNidDZMMV9UXzZncmFrVXZ0T2JnU2w4NFByMno4QSDJrQUQARjJrQU%3D&amp;tsid=100000502" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Personal Assistant role at Visionary Financial Education as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+              <tr class="row" data-detail="gig-6" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Dice</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">C</span>
+            <div class="role-text">
+              <div class="role-title">IT Support Specialist (Bilingual)</div>
+              <div class="role-company">CLPS Global</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="remote-pill">Remote</span> US-Remote</td>
+        <td class="mono-cell">Aug 25, 2026</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.dice.com/job-detail/96999aea-0ff1-4611-9b0f-b96a2540d539?utm_source=claude-user&amp;utm_medium=mcp" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gig-6">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Bridge income, remote gig / 1099 / contract</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Fully remote and structured as a contract role, which fits the bridge-income model. Issue analysis, tracking and resolution work overlaps with the ITSM and ticketing habits Cal built at AOUSC and SEC.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Bilingual language requirement is unconfirmed for Cal. Pay is listed only as &quot;Depends on Experience&quot; with no posted range, worth clarifying before applying.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the IT Support Specialist (Bilingual) role at CLPS Global (US-Remote). Posting: https://www.dice.com/job-detail/96999aea-0ff1-4611-9b0f-b96a2540d539?utm_source=claude-user&amp;utm_medium=mcp" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the IT Support Specialist (Bilingual) role at CLPS Global as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gig-7" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Dice</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">V</span>
+            <div class="role-text">
+              <div class="role-title">Desktop Support Engineer</div>
+              <div class="role-company">Vaco by Highspring</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="remote-pill">Remote</span> Remote</td>
+        <td class="mono-cell">Aug 24, 2026</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.dice.com/job-detail/751ea867-e6cf-46b8-912d-5b457cfcd47a?utm_source=claude-user&amp;utm_medium=mcp" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gig-7">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Bridge income, remote gig / 1099 / contract</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Fully remote, hourly contract work. Desktop and end-user support, hardware/software troubleshooting and asset lifecycle work overlap directly with Cal&#x27;s Windows Server and support background.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Pay is modest at $30/hr relative to Cal&#x27;s senior-level rate expectations. Best treated as short-term bridge income rather than a primary target.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Desktop Support Engineer role at Vaco by Highspring (Remote). Posting: https://www.dice.com/job-detail/751ea867-e6cf-46b8-912d-5b457cfcd47a?utm_source=claude-user&amp;utm_medium=mcp" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Desktop Support Engineer role at Vaco by Highspring as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+</tbody>
+      </table>
+    </div>
+  </div>
+  <div class="gig-note">Upwork and Fiverr do not expose individually searchable postings without login, so live listings from those platforms are not pulled here. Browse categories directly: <a href="https://www.upwork.com/nx/search/jobs/" target="_blank" rel="noopener">Upwork job search</a> &middot; <a href="https://www.fiverr.com/" target="_blank" rel="noopener">Fiverr</a> &middot; <a href="https://www.flexjobs.com/" target="_blank" rel="noopener">FlexJobs</a>.</div>
+
+  <div class="section-header">
+    <h2>Government &amp; Civic Track</h2>
+    <div class="subtitle">County, state, and legislative-branch roles &mdash; including positions inside or adjacent to the County Council, which build directly toward Cal's longer-term civic goals. Skill-mismatched roles (e.g. attorney positions) are still shown when they sit inside the Council/Legislative Branch, flagged honestly. Now includes GovernmentJobs.com (PG County), added for IT-related and Council-track postings; that site blocks automated fetching of full listings, so posted dates and salary are marked Unverified until you open the direct link.</div>
+  </div>
+  <div class="table-card gov-card">
+    <div class="table-scroll">
+      <table id="govTable">
+        <thead>
+          <tr>
+            <th></th><th>Source</th><th>Role</th><th>Location</th><th>Posted</th><th>Fit</th><th>Status</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="govTableBody">
+      <tr class="row" data-detail="gov-1" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title">IT Associate Director</div>
+              <div class="role-company">Prince George&#x27;s County (Office of Information Technology)</div>
+            </div>
+          </div>
+        </td>
+        <td>Largo, MD</td>
+        <td class="mono-cell">Aug 21, 2026</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aa7x8khc9yw2" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-1">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County executive branch IT</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Directly in Cal&#x27;s technical wheelhouse: enterprise infrastructure, servers, virtualization, cloud services, and telecom, all core to his VMware, Windows Server, and network background. It is PG County government, Cal&#x27;s home county, about 15 minutes from Upper Marlboro, and builds real standing inside county government ahead of the 2030 run. Salary range of $98,702 to $208,000 is well above his floor.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Preferred qualifications call for 7+ years in senior management or leadership with budget, vendor, and contract ownership. Cal&#x27;s AOUSC role was the top internal escalation point, not a people manager or budget owner, so the supervisory and budget management depth is a real gap to address head on in an interview.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the IT Associate Director role at Prince George&#x27;s County (Office of Information Technology) (Largo, MD). Posting: https://to.indeed.com/aa7x8khc9yw2" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the IT Associate Director role at Prince George&#x27;s County (Office of Information Technology) as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gov-2" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title"><span class="civic-pill">Council track</span> Legislative Attorney</div>
+              <div class="role-company">Prince George&#x27;s County Council (Legislative Officers Division)</div>
+            </div>
+          </div>
+        </td>
+        <td>Largo, MD</td>
+        <td class="mono-cell">Aug 18, 2026</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aazwnzmpmmzg" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-2">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County Council / Legislative Branch</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Sits literally inside the County Council&#x27;s own Legislative Officers Division, direct exposure to how bills, budget review, and committee work happen inside the Council. Valuable to track for the civic ecosystem even though Cal is not the right candidate for this specific seat.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Requires a Master&#x27;s degree in a related field with a Juris Doctorate strongly preferred, plus legislative drafting and legal research experience. Cal does not hold a law degree, a hard skill mismatch. Shown here for ecosystem visibility only, not as a role to apply for.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Legislative Attorney role at Prince George&#x27;s County Council (Legislative Officers Division) (Largo, MD). Posting: https://to.indeed.com/aazwnzmpmmzg" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Legislative Attorney role at Prince George&#x27;s County Council (Legislative Officers Division) as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gov-3" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">GovJobs</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title">Systems Analyst II</div>
+              <div class="role-company">Prince George&#x27;s County Government</div>
+            </div>
+          </div>
+        </td>
+        <td>Largo, MD</td>
+        <td class="mono-cell">Unverified</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.governmentjobs.com/careers/pgc/jobs/newprint/4569660" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-3">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County IT (GovernmentJobs.com)</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">A core systems analyst title inside PG County&#x27;s own IT organization, directly in line with Cal&#x27;s systems administration and application support background at AOUSC and SEC. County government, home-county civic value toward 2030.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">GovernmentJobs.com blocks automated fetching of the full listing (robots.txt), so salary, exact posting date, and detailed requirements could not be pulled here. Open the direct link to confirm scope and pay before applying.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Systems Analyst II role at Prince George&#x27;s County Government (Largo, MD). Posting: https://www.governmentjobs.com/careers/pgc/jobs/newprint/4569660" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Systems Analyst II role at Prince George&#x27;s County Government as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gov-4" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">GovJobs</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title">IT Program Operations Coordinator</div>
+              <div class="role-company">Prince George&#x27;s County Government</div>
+            </div>
+          </div>
+        </td>
+        <td>Upper Marlboro, MD</td>
+        <td class="mono-cell">Unverified</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.governmentjobs.com/careers/pgc/jobs/newprint/5317538" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-4">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County IT (GovernmentJobs.com)</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">IT program and operations coordination overlaps with the SOPs, compliance checklists, and change management work Cal ran at AOUSC and SEC. Literally in Upper Marlboro, zero commute.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">GovernmentJobs.com blocks automated fetching of the full listing, so salary, exact posting date, and detailed requirements could not be pulled here. Open the direct link to confirm before applying.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the IT Program Operations Coordinator role at Prince George&#x27;s County Government (Upper Marlboro, MD). Posting: https://www.governmentjobs.com/careers/pgc/jobs/newprint/5317538" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the IT Program Operations Coordinator role at Prince George&#x27;s County Government as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gov-5" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">GovJobs</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title">Enterprise Resource Planning Manager</div>
+              <div class="role-company">Prince George&#x27;s County Government</div>
+            </div>
+          </div>
+        </td>
+        <td>Largo, MD</td>
+        <td class="mono-cell">Unverified</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.governmentjobs.com/careers/pgc/jobs/5407557/enterprise-resource-planning-manager" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-5">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County IT (GovernmentJobs.com)</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Enterprise systems management inside PG County IT, adjacent to the application lifecycle and provisioning work Cal ran at SEC.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">The Manager title likely calls for formal budget ownership and staff supervision. Cal&#x27;s AOUSC and SEC roles were the top internal escalation point, not a people or budget manager, so that gap needs to be addressed head on. GovernmentJobs.com also blocks automated fetching of the full listing, confirm scope and pay directly before applying.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Enterprise Resource Planning Manager role at Prince George&#x27;s County Government (Largo, MD). Posting: https://www.governmentjobs.com/careers/pgc/jobs/5407557/enterprise-resource-planning-manager" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Enterprise Resource Planning Manager role at Prince George&#x27;s County Government as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gov-6" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">GovJobs</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title">Data Scientist</div>
+              <div class="role-company">Prince George&#x27;s County Government</div>
+            </div>
+          </div>
+        </td>
+        <td>Largo, MD</td>
+        <td class="mono-cell">Unverified</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.governmentjobs.com/careers/pgc/jobs/newprint/5122987" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-6">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County IT (GovernmentJobs.com)</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">PG County government, home-county civic value, and technically IT-adjacent.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">No data science, statistics, or analytics background documented for Cal. His core strengths are VMware, Windows Server, Active Directory, and PowerShell automation, not statistical modeling or data pipelines, so this is a real stretch outside his lane rather than an honest fit. Shown for visibility only. GovernmentJobs.com also blocks automated fetching of the full listing.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Data Scientist role at Prince George&#x27;s County Government (Largo, MD). Posting: https://www.governmentjobs.com/careers/pgc/jobs/newprint/5122987" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Data Scientist role at Prince George&#x27;s County Government as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gov-7" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">GovJobs</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title"><span class="civic-pill">Council track</span> Council Administrator</div>
+              <div class="role-company">Prince George&#x27;s County Council</div>
+            </div>
+          </div>
+        </td>
+        <td>Upper Marlboro, MD</td>
+        <td class="mono-cell">Unverified</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.governmentjobs.com/careers/pgc/jobs/newprint/5006755" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-7">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County Council / Legislative Branch (GovernmentJobs.com)</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">The Council Administrator function runs the Legislative Branch&#x27;s daily operations: policy support, budget oversight for the Council, legislative drafting and research, and committee staffing. This is exactly the kind of direct Council-ecosystem visibility and relationship-building Cal is targeting ahead of a 2030 run.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">The Council&#x27;s own site currently lists David H. Murray as Council Administrator for the central Legislative Branch, so this specific posting likely covers a different seat, possibly one of the 11 individual councilmember district offices rather than the top Legislative Branch post. GovernmentJobs.com blocks automated fetching of the listing, so the exact office and required qualifications could not be confirmed here. Open the direct link before treating this as more than a lead.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Council Administrator role at Prince George&#x27;s County Council (Upper Marlboro, MD). Posting: https://www.governmentjobs.com/careers/pgc/jobs/newprint/5006755" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Council Administrator role at Prince George&#x27;s County Council as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gov-8" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">GovJobs</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title"><span class="civic-pill">Council track</span> Associate Council Administrator</div>
+              <div class="role-company">Prince George&#x27;s County Council</div>
+            </div>
+          </div>
+        </td>
+        <td>Upper Marlboro, MD</td>
+        <td class="mono-cell">Unverified</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.governmentjobs.com/careers/pgc/jobs/newprint/4465908" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-8">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County Council / Legislative Branch (GovernmentJobs.com)</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">A step below the top Council Administrator post, likely more attainable, same direct exposure to Council budget, legislative drafting, and committee support work. Same 2030 ecosystem value as the Council Administrator listing above.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Colette R. Gresham and Karen T. Zavakos are the Council&#x27;s currently listed Deputy and Associate Administrators, so this posting is most likely for one of the 11 individual councilmember district offices. GovernmentJobs.com blocks automated fetching of the listing, so exact office, qualifications, and salary could not be confirmed here. Open the direct link before treating this as more than a lead.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Associate Council Administrator role at Prince George&#x27;s County Council (Upper Marlboro, MD). Posting: https://www.governmentjobs.com/careers/pgc/jobs/newprint/4465908" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Associate Council Administrator role at Prince George&#x27;s County Council as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+              <tr class="row" data-detail="gov-9" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">GovJobs</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title"><span class="civic-pill">Council track</span> TIEE Committee Aide</div>
+              <div class="role-company">Prince George&#x27;s County Council (TIEE Committee)</div>
+            </div>
+          </div>
+        </td>
+        <td>Largo, MD</td>
+        <td class="mono-cell">Unverified</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.governmentjobs.com/careers/pgc/jobs/newprint/4990323" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-9">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County Council / Legislative Branch</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Committee-level staff role sitting directly inside the County Council structure, real exposure to how committee work and legislative process actually run. Valuable for the civic ecosystem and network building toward the 2030 run.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">GovernmentJobs.com blocks automated fetching of the full listing (robots.txt), so salary, exact posting date and detailed requirements could not be pulled here. Open the direct link to confirm scope, required qualifications and pay before applying.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the TIEE Committee Aide role at Prince George&#x27;s County Council (TIEE Committee) (Largo, MD). Posting: https://www.governmentjobs.com/careers/pgc/jobs/newprint/4990323" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the TIEE Committee Aide role at Prince George&#x27;s County Council (TIEE Committee) as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gov-10" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">GovJobs</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title">Administrative and Legislative Affairs Coordinator</div>
+              <div class="role-company">Prince George&#x27;s County Government</div>
+            </div>
+          </div>
+        </td>
+        <td>Largo, MD</td>
+        <td class="mono-cell">Unverified</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.governmentjobs.com/careers/pgc/jobs/newprint/5102645" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-10">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 25, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County (office unconfirmed)</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Title-level alignment with legislative and administrative coordination work, potential civic-ecosystem visibility toward the 2030 run given the legislative affairs focus.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">GovernmentJobs.com blocks automated fetching (robots.txt), so it could not be confirmed whether this role sits inside the Council/Legislative Branch or the County Executive&#x27;s office, nor its salary, full requirements or posting date. Open the direct link to confirm before treating this as Council-track.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Administrative and Legislative Affairs Coordinator role at Prince George&#x27;s County Government (Largo, MD). Posting: https://www.governmentjobs.com/careers/pgc/jobs/newprint/5102645" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Administrative and Legislative Affairs Coordinator role at Prince George&#x27;s County Government as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="gov-11" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">GovJobs</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title"><span class="civic-pill">Council track</span> Legislative Analyst</div>
+              <div class="role-company">Prince George&#x27;s County Council (Legislative Branch)</div>
+            </div>
+          </div>
+        </td>
+        <td>Upper Marlboro, MD</td>
+        <td class="mono-cell">Unverified</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.governmentjobs.com/careers/pgc/jobs/newprint/5201053" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="gov-11">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 26, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Government &amp; civic, PG County Council / Legislative Branch (GovernmentJobs.com)</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">A legislative branch analyst role, directly in the Council/Legislative track Cal is building toward for his 2030 run, alongside the Council Administrator and Associate Council Administrator postings already tracked. Research, policy analysis, and constituent-facing work would build direct legislative branch experience and relationships ahead of a future campaign.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">GovernmentJobs.com blocks automated fetching of the full listing (robots.txt), so salary, exact posting date, and detailed requirements could not be pulled here. Open the direct link to confirm scope, pay, and qualifications before applying.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Legislative Analyst role at Prince George&#x27;s County Council (Legislative Branch) (Upper Marlboro, MD). Posting: https://www.governmentjobs.com/careers/pgc/jobs/newprint/5201053" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Legislative Analyst role at Prince George&#x27;s County Council (Legislative Branch) as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+</tbody>
+      </table>
+    </div>
+  </div>
+  <div class="gig-note">Council and civic resources: <a href="https://pgccouncil.us/740/Job-Opportunities" target="_blank" rel="noopener">PG County Council job openings</a> &middot; <a href="https://pgccouncil.us/390/Council-Appointments-to-Boards-Commissio" target="_blank" rel="noopener">PG County Council appointments to boards &amp; commissions</a> (unpaid, a stepping stone toward elected office) &middot; <a href="https://dccouncil.gov/jobs-solicitations21/" target="_blank" rel="noopener">DC Council jobs</a> &middot; <a href="https://dls.maryland.gov/careers/mga-careers/" target="_blank" rel="noopener">Maryland General Assembly careers</a> &middot; <a href="https://mdyrs.com/job-board/" target="_blank" rel="noopener">MDYRS legislative &amp; campaign staffing board</a>.</div>
+
+  <div class="section-header">
+    <h2>Part-Time Local Work &mdash; Retail, Gym &amp; Admin</h2>
+    <div class="subtitle">In-person, DC-metro-local part-time roles for bridge income &mdash; not remote by nature, sorted closest and freshest first.</div>
+  </div>
+  <div class="table-card local-card">
+    <div class="table-scroll">
+      <table id="localTable">
+        <thead>
+          <tr>
+            <th></th><th>Source</th><th>Role</th><th>Location</th><th>Posted</th><th>Fit</th><th>Status</th><th></th>
+          </tr>
+        </thead>
+        <tbody id="localTableBody">
+      <tr class="row" data-detail="local-1" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">L</span>
+            <div class="role-text">
+              <div class="role-title">Cashier (Part-Time)</div>
+              <div class="role-company">Lowe&#x27;s Home Improvement</div>
+            </div>
+          </div>
+        </td>
+        <td>Upper Marlboro, MD</td>
+        <td class="mono-cell">Aug 17, 2026</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aa74wpxg849r" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="local-1">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Part-time local bridge income, retail / gym / admin</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Literally in Upper Marlboro, zero commute. $16.50 to $17.85/hr, straightforward part-time retail bridge income.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Retail cashier work with no connection to Cal&#x27;s IT or civic career track, pure bridge income by design.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Cashier (Part-Time) role at Lowe&#x27;s Home Improvement (Upper Marlboro, MD). Posting: https://to.indeed.com/aa74wpxg849r" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Cashier (Part-Time) role at Lowe&#x27;s Home Improvement as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="local-2" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">C</span>
+            <div class="role-text">
+              <div class="role-title">Store Associate</div>
+              <div class="role-company">CVS Health</div>
+            </div>
+          </div>
+        </td>
+        <td>Temple Hills, MD</td>
+        <td class="mono-cell">Aug 19, 2026</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aaqmv97qmxyl" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="local-2">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Part-time local bridge income, retail / gym / admin</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">About 15 minutes from Upper Marlboro, $15.30 to $22.30/hr range, flexible part-time retail scheduling.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Bridge income only, no career track alignment.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Store Associate role at CVS Health (Temple Hills, MD). Posting: https://to.indeed.com/aaqmv97qmxyl" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Store Associate role at CVS Health as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="local-3" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">O</span>
+            <div class="role-text">
+              <div class="role-title">Scheduler &amp; Special Assistant</div>
+              <div class="role-company">Office of Delegate Alonzo T. Washington</div>
+            </div>
+          </div>
+        </td>
+        <td>Lanham, MD</td>
+        <td class="mono-cell">Aug 07, 2026</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aagrvw9cjqq8" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="local-3">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Part-time local bridge income, retail / gym / admin</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">About 15 minutes from Upper Marlboro, $22 to $25/hr, and unlike most Track F listings this one is directly civic adjacent: part-time admin and scheduling work inside a sitting Maryland state Delegate&#x27;s office, building real relationships and visibility in exactly the political ecosystem Cal is working toward for 2030.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Part-time pay is below Cal&#x27;s IT-track floor, by design as bridge income. Posting is about two and a half weeks old, worth confirming it is still open before applying.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Scheduler &amp; Special Assistant role at Office of Delegate Alonzo T. Washington (Lanham, MD). Posting: https://to.indeed.com/aagrvw9cjqq8" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Scheduler &amp; Special Assistant role at Office of Delegate Alonzo T. Washington as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="local-4" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">ZipRecruiter</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">U</span>
+            <div class="role-text">
+              <div class="role-title">Front Desk Associate</div>
+              <div class="role-company">US Fitness Holdings</div>
+            </div>
+          </div>
+        </td>
+        <td>Clinton, MD</td>
+        <td class="mono-cell">~13 days ago</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.ziprecruiter.com/job-redirect?match_token=CpoBChZnMzdpUkQybndRazRYSEdlQVBURjdBEiQwMWEwMzMzYy0zMTAxLTdkYTYtYmViOC01ZTgzN2JkYWJmZTUaS0FBRm0zWEN4OGlGQllPbURlVV9ZTGVxMTdVT01ybFRJd2JYU3Eyb3F5cnpFUzAwVXZiMlhTV0FRc2NyVmNBVzBuTXhGYUZPdlA1cyDJrQUQARjJrQU%3D&amp;tsid=100000502" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="local-4">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Part-time local bridge income, retail / gym / admin</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">About 15 minutes from Upper Marlboro, gym front-desk bridge income at $28,000 to $36,000/yr.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Posting is about two weeks old, flagged as possibly stale, confirm it is still open. Pure bridge income.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Front Desk Associate role at US Fitness Holdings (Clinton, MD). Posting: https://www.ziprecruiter.com/job-redirect?match_token=CpoBChZnMzdpUkQybndRazRYSEdlQVBURjdBEiQwMWEwMzMzYy0zMTAxLTdkYTYtYmViOC01ZTgzN2JkYWJmZTUaS0FBRm0zWEN4OGlGQllPbURlVV9ZTGVxMTdVT01ybFRJd2JYU3Eyb3F5cnpFUzAwVXZiMlhTV0FRc2NyVmNBVzBuTXhGYUZPdlA1cyDJrQUQARjJrQU%3D&amp;tsid=100000502" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Front Desk Associate role at US Fitness Holdings as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="local-5" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">ZipRecruiter</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">C</span>
+            <div class="role-text">
+              <div class="role-title">Part Time Sr. Shift Supervisor (Costco, via CDS)</div>
+              <div class="role-company">Club Demonstration Services</div>
+            </div>
+          </div>
+        </td>
+        <td>Brandywine, MD</td>
+        <td class="mono-cell">~5 days ago</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.ziprecruiter.com/job-redirect?match_token=CpoBChZvb3NLZ2NKb01pYkxzN0ctV1RIeFlBEiQwMWEwMzMzYy0zMTAxLTczMGUtYTc4YS1lNzMyMWYyM2NhZTYaVkFBSDdIdUdIc0FGejlEbnN6eHk2Si01eUtFMFczOG1XQTRUblRhV1FHM3JDVm5NU3dVVE1rVTMtN0dNbVdwWGJFRkxocXQyQ2wwcFdSX1BqMFhoUmtRIMmtBRABGMmtBQ%3D%3D&amp;tsid=100000502" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="local-5">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Part-time local bridge income, retail / gym / admin</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">About 20 minutes from Upper Marlboro, retail supervisory role at $39,000/yr, a step up from a pure entry-level cashier role.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Retail, not IT or civic aligned, in-store club demo and coverage work.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Part Time Sr. Shift Supervisor (Costco, via CDS) role at Club Demonstration Services (Brandywine, MD). Posting: https://www.ziprecruiter.com/job-redirect?match_token=CpoBChZvb3NLZ2NKb01pYkxzN0ctV1RIeFlBEiQwMWEwMzMzYy0zMTAxLTczMGUtYTc4YS1lNzMyMWYyM2NhZTYaVkFBSDdIdUdIc0FGejlEbnN6eHk2Si01eUtFMFczOG1XQTRUblRhV1FHM3JDVm5NU3dVVE1rVTMtN0dNbVdwWGJFRkxocXQyQ2wwcFdSX1BqMFhoUmtRIMmtBRABGMmtBQ%3D%3D&amp;tsid=100000502" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Part Time Sr. Shift Supervisor (Costco, via CDS) role at Club Demonstration Services as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="local-6" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">P</span>
+            <div class="role-text">
+              <div class="role-title">Administrative Assistant</div>
+              <div class="role-company">Palmer Staffing Services</div>
+            </div>
+          </div>
+        </td>
+        <td>Washington, DC</td>
+        <td class="mono-cell">Aug 20, 2026</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aamfr2kkq62m" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="local-6">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Part-time local bridge income, retail / gym / admin</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Strong hourly pay for the local track at $25 to $30/hr, staffing agency placement means a fast start.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">About a 30 to 35 minute commute from Upper Marlboro into DC, flagged as a real commute cost against a cashier or gym job that is 10 to 15 minutes away.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Administrative Assistant role at Palmer Staffing Services (Washington, DC). Posting: https://to.indeed.com/aamfr2kkq62m" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Administrative Assistant role at Palmer Staffing Services as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="local-7" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">ZipRecruiter</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">M</span>
+            <div class="role-text">
+              <div class="role-title">Administrative Assistant / Seasonal (Northern Region Parks)</div>
+              <div class="role-company">Maryland-National Capital Park &amp; Planning Commission</div>
+            </div>
+          </div>
+        </td>
+        <td>Riverdale Park, MD</td>
+        <td class="mono-cell">~6 days ago</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.ziprecruiter.com/job-redirect?match_token=Co8BChZOZklaaWFxQTQxOHRxMkhEekJoSmd3EiQwMWEwMzMzYy0zNTQyLTc4MDItODllZS0yNzE1NmQwOWFjNzMaS0FBSEc3MGhNN2VCdHg3d3lFZGdwTUlTR3FQcFZVWmM0YmNYMzE2MTg5WC1DOUJvYnZzUlF2NWtwYV9hUDRDeVNHM0twbmlUU3YyMCDJrQUQARjJrQU%3D&amp;tsid=100000502" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="local-7">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Part-time local bridge income, retail / gym / admin</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">About 25 minutes from Upper Marlboro, a quasi-governmental bi-county park and planning agency, modest civic-adjacent value, $33,300 to $43,940/yr.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Seasonal, not permanent. Below Cal&#x27;s IT-track pay floor, by design as bridge income.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Administrative Assistant / Seasonal (Northern Region Parks) role at Maryland-National Capital Park &amp; Planning Commission (Riverdale Park, MD). Posting: https://www.ziprecruiter.com/job-redirect?match_token=Co8BChZOZklaaWFxQTQxOHRxMkhEekJoSmd3EiQwMWEwMzMzYy0zNTQyLTc4MDItODllZS0yNzE1NmQwOWFjNzMaS0FBSEc3MGhNN2VCdHg3d3lFZGdwTUlTR3FQcFZVWmM0YmNYMzE2MTg5WC1DOUJvYnZzUlF2NWtwYV9hUDRDeVNHM0twbmlUU3YyMCDJrQUQARjJrQU%3D&amp;tsid=100000502" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Administrative Assistant / Seasonal (Northern Region Parks) role at Maryland-National Capital Park &amp; Planning Commission as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="local-8" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">ZipRecruiter</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">M</span>
+            <div class="role-text">
+              <div class="role-title">Youth Service Educational Aide (Part-Time)</div>
+              <div class="role-company">Melwood</div>
+            </div>
+          </div>
+        </td>
+        <td>Fort Washington, MD</td>
+        <td class="mono-cell">~19 days ago</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.ziprecruiter.com/job-redirect?match_token=CpoBChZfa0Z0cTZCTXZtNTQzdXZRQVBweEtREiQwMWEwMzMzYy0zNTQyLTc4M2UtYWU2My02M2VlZTc0M2ZlY2MaVkFBRXg3RGxFUl9ZX1hzQjJ6bmF6VmRfM212NWVCLXpWb2I4Sjl6cktGbncyWUwxSUdVNXNsaldyc3FMOWVPY1BWcWxZTmg5d3V3cFZsWU91WTcxQkFRIMmtBRABGMmtBQ%3D%3D&amp;tsid=100000502" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="local-8">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Part-time local bridge income, retail / gym / admin</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">About 15 minutes from Upper Marlboro at $37,000/yr, Melwood is a well established PG County nonprofit with real community visibility.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Posting is closing in on a month old, flagged as possibly stale, confirm before applying.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Youth Service Educational Aide (Part-Time) role at Melwood (Fort Washington, MD). Posting: https://www.ziprecruiter.com/job-redirect?match_token=CpoBChZfa0Z0cTZCTXZtNTQzdXZRQVBweEtREiQwMWEwMzMzYy0zNTQyLTc4M2UtYWU2My02M2VlZTc0M2ZlY2MaVkFBRXg3RGxFUl9ZX1hzQjJ6bmF6VmRfM212NWVCLXpWb2I4Sjl6cktGbncyWUwxSUdVNXNsaldyc3FMOWVPY1BWcWxZTmg5d3V3cFZsWU91WTcxQkFRIMmtBRABGMmtBQ%3D%3D&amp;tsid=100000502" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Youth Service Educational Aide (Part-Time) role at Melwood as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="local-9" data-fit="weak" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">ZipRecruiter</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">V</span>
+            <div class="role-text">
+              <div class="role-title">Part Time Sales Representative</div>
+              <div class="role-company">Vector Marketing</div>
+            </div>
+          </div>
+        </td>
+        <td>Upper Marlboro, MD</td>
+        <td class="mono-cell">~5 days ago</td>
+        <td><span class="fit-badge fit-weak">Weak match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://www.ziprecruiter.com/job-redirect?match_token=CpoBChZXeDBkU09JU3AydlJaX3IwV29mcU1nEiQwMWEwMzMzYy0zNTQyLTc4MGUtYTYxZS1lZDEyZTQzNWIwZTIaVkFBRW9waTNmNF8wd1FYOEs2MElzSWtHeEhpNF9ieW1tRnYtR194ajZnazh5WVJ1aFNxenhWNW4taWN1dVBLRENLZ3JqNmU3YjdfSHVGRjFHNldvWmxRIMmtBRABGMmtBQ%3D%3D&amp;tsid=100000502" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="local-9">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 24, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Part-time local bridge income, retail / gym / admin</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Zero commute, literally in Upper Marlboro, and the posted pay range looks strong ($46,600 to $74,900/yr).</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Vector Marketing sells door-to-door and in-home Cutco cutlery on a commission-based structure with no guaranteed hourly wage behind the posted range. Approach with real caution and verify the actual pay structure before investing time.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Part Time Sales Representative role at Vector Marketing (Upper Marlboro, MD). Posting: https://www.ziprecruiter.com/job-redirect?match_token=CpoBChZXeDBkU09JU3AydlJaX3IwV29mcU1nEiQwMWEwMzMzYy0zNTQyLTc4MGUtYTYxZS1lZDEyZTQzNWIwZTIaVkFBRW9waTNmNF8wd1FYOEs2MElzSWtHeEhpNF9ieW1tRnYtR194ajZnazh5WVJ1aFNxenhWNW4taWN1dVBLRENLZ3JqNmU3YjdfSHVGRjFHNldvWmxRIMmtBRABGMmtBQ%3D%3D&amp;tsid=100000502" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Part Time Sales Representative role at Vector Marketing as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr class="row" data-detail="local-10" data-fit="possible" data-status="new" tabindex="0">
+        <td class="chev-cell"><span class="chevron">&#9656;</span></td>
+        <td><span class="source-badge">Indeed</span></td>
+        <td>
+          <div class="role-cell">
+            <span class="avatar">A</span>
+            <div class="role-text">
+              <div class="role-title">Retail Sales Associate (Part-Time)</div>
+              <div class="role-company">AutoZone</div>
+            </div>
+          </div>
+        </td>
+        <td>Bowie, MD</td>
+        <td class="mono-cell">Aug 25, 2026</td>
+        <td><span class="fit-badge fit-possible">Possible match</span></td>
+        <td><span class="status-pill status-new">New</span></td>
+        <td><a class="apply-link" href="https://to.indeed.com/aagvxshd267t" target="_blank" rel="noopener">Apply&nbsp;&rarr;</a></td>
+      </tr>
+      <tr class="detail-row hidden" id="local-10">
+        <td colspan="7">
+          <div class="detail-inner">
+            <div class="gaps-block">
+              <div class="d-row"><div class="d-label">Found</div><div class="d-value">Aug 26, 2026</div></div>
+              <div class="d-row"><div class="d-label">Track</div><div class="d-value">Part-time local bridge income, retail / gym / admin</div></div>
+              <div class="d-row"><div class="d-label">Why it fits</div><div class="d-value">Bowie is a short drive from Upper Marlboro, straightforward part-time retail bridge income at $15.30 to $15.58/hr.</div></div>
+              <div class="d-row"><div class="d-label">Honest gaps</div><div class="d-value">Retail counter work with no connection to Cal&#x27;s IT or civic career track, pure bridge income by design, and pay is on the low end of the local bridge-income roles found so far.</div></div>
+            </div>
+            <div class="tailor-block">
+              <div class="d-label">Get a tailored resume</div>
+              <div class="d-value">Copy this and paste it to Claude in chat to get a resume tailored specifically to this role:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Tailor my resume for the Retail Sales Associate (Part-Time) role at AutoZone (Bowie, MD). Posting: https://to.indeed.com/aagvxshd267t" onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            <div class="applied-block">
+              <div class="d-label">Mark as applied</div>
+              <div class="d-value">Applied to this one? Copy this and paste it to Claude in chat:</div>
+              <div class="copy-row">
+                <input type="text" class="copy-input" readonly value="Mark the Retail Sales Associate (Part-Time) role at AutoZone as applied on the job tracker." onclick="this.select();">
+                <button type="button" class="copy-btn">Copy</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer>
+    Built and updated automatically by Cal's daily job search scan. Four tracks: IT/infrastructure &amp; creative production, remote gig/1099 bridge income, government &amp; civic (including PG County Council), and part-time local bridge income. Expand any row for the full fit assessment and a one-tap tailored-resume request. Rows carry forward day over day from the copy saved in Google Drive; expand any row and use the "Mark as applied" block once you've applied.
+  </footer>
+
+<script>
+(function(){
+  // Theme toggle
+  var root = document.documentElement;
+  var toggle = document.getElementById('themeToggle');
+  function applyStored(){
+    try{
+      var saved = localStorage.getItem('cal-tracker-theme');
+      if(saved === 'light' || saved === 'dark'){ root.setAttribute('data-theme', saved); }
+    }catch(e){}
+  }
+  applyStored();
+  if(toggle){
+    toggle.addEventListener('click', function(){
+      var current = root.getAttribute('data-theme');
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var effectiveCurrent = current || (prefersDark ? 'dark' : 'light');
+      var next = effectiveCurrent === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try{ localStorage.setItem('cal-tracker-theme', next); }catch(e){}
+    });
+  }
+
+  // Copy-to-clipboard handler
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    const input = btn.previousElementSibling;
+    if (!input) return;
+    input.select();
+    input.setSelectionRange(0, input.value.length);
+    let copied = false;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(input.value).then(function () { markCopied(btn); }).catch(function () {
+        try { copied = document.execCommand('copy'); } catch (err) { copied = false; }
+        if (copied) markCopied(btn);
+      });
+    } else {
+      try { copied = document.execCommand('copy'); } catch (err) { copied = false; }
+      if (copied) markCopied(btn);
+    }
+  });
+  function markCopied(btn) {
+    const original = btn.textContent;
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(function () { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+  }
+
+  // Expand / collapse handlers - four separate tables
+  document.querySelectorAll('#jobTableBody tr.row').forEach(function(row){
+    row.addEventListener('click', function(){
+      var id = row.getAttribute('data-detail');
+      var detail = document.getElementById(id);
+      if(!detail) return;
+      detail.classList.toggle('hidden');
+      row.classList.toggle('open');
+    });
+    row.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); row.click(); } });
+  });
+  document.querySelectorAll('#gigTableBody tr.row').forEach(function(row){
+    row.addEventListener('click', function(){
+      var id = row.getAttribute('data-detail');
+      var detail = document.getElementById(id);
+      if(!detail) return;
+      detail.classList.toggle('hidden');
+      row.classList.toggle('open');
+    });
+    row.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); row.click(); } });
+  });
+  document.querySelectorAll('#govTableBody tr.row').forEach(function(row){
+    row.addEventListener('click', function(){
+      var id = row.getAttribute('data-detail');
+      var detail = document.getElementById(id);
+      if(!detail) return;
+      detail.classList.toggle('hidden');
+      row.classList.toggle('open');
+    });
+    row.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); row.click(); } });
+  });
+  document.querySelectorAll('#localTableBody tr.row').forEach(function(row){
+    row.addEventListener('click', function(){
+      var id = row.getAttribute('data-detail');
+      var detail = document.getElementById(id);
+      if(!detail) return;
+      detail.classList.toggle('hidden');
+      row.classList.toggle('open');
+    });
+    row.addEventListener('keydown', function(e){ if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); row.click(); } });
+  });
+
+  // Filter bar - scoped to main jobTableBody
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filterBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      var filter = btn.getAttribute('data-filter');
+      document.querySelectorAll('#jobTableBody tr.row').forEach(function(row){
+        var fit = row.getAttribute('data-fit');
+        var show = (filter === 'all' || filter === fit);
+        row.style.display = show ? '' : 'none';
+        var detail = document.getElementById(row.getAttribute('data-detail'));
+        if(detail && !show){ detail.classList.add('hidden'); row.classList.remove('open'); detail.style.display = 'none'; }
+        else if(detail){ detail.style.display = ''; }
+      });
+    });
+  });
+
+  // Applied count tile - computed client-side from data-status, never hardcoded
+  var TRACK_TABLE_IDS = ['jobTableBody', 'gigTableBody', 'govTableBody', 'localTableBody'];
+  function refreshAppliedCount(){
+    var count = 0;
+    TRACK_TABLE_IDS.forEach(function(tbId){
+      var tb = document.getElementById(tbId);
+      if(!tb) return;
+      count += tb.querySelectorAll('tr.row[data-status="applied"]').length;
+    });
+    var el = document.getElementById('appliedCount');
+    if(el){ el.textContent = String(count); }
+  }
+  refreshAppliedCount();
+
+  // Applied-only toggle - filters all four tables to data-status="applied" rows
+  var appliedToggleBtn = document.getElementById('appliedToggle');
+  var appliedFilterActive = false;
+  function applyAppliedFilter(){
+    TRACK_TABLE_IDS.forEach(function(tbId){
+      var tb = document.getElementById(tbId);
+      if(!tb) return;
+      tb.querySelectorAll('tr.row').forEach(function(row){
+        var status = row.getAttribute('data-status');
+        var show = !appliedFilterActive || status === 'applied';
+        row.style.display = show ? '' : 'none';
+        var detail = document.getElementById(row.getAttribute('data-detail'));
+        if(detail){
+          if(!show){ detail.classList.add('hidden'); row.classList.remove('open'); detail.style.display = 'none'; }
+          else{ detail.style.display = ''; }
+        }
+      });
+    });
+  }
+  if(appliedToggleBtn){
+    appliedToggleBtn.addEventListener('click', function(){
+      appliedFilterActive = !appliedFilterActive;
+      appliedToggleBtn.classList.toggle('active', appliedFilterActive);
+      applyAppliedFilter();
+    });
+  }
+})();
+</script>
+</body>
+</html>
