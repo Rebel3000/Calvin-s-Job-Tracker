@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Juice "STUFF" + More | Cold-Pressed Juice &amp; Wellness, Upper Marlboro MD</title>
+<meta name="description" content="Cold-pressed juices, immunity shots, and 1/3/5-day cleanse programs from Juice &quot;STUFF&quot; + More, LLC — Upper Marlboro, MD. Founded by Lasharn D. Hamilton, The Juice Plug, Certified Juice Therapist. Stay charged. Stay juicy.">
+<meta property="og:title" content='Juice "STUFF" + More — Stay charged. Stay juicy.'>
+<meta property="og:description" content="Cold-pressed juices, immunity shots, and structured fasting programs made by a Certified Juice Therapist in Upper Marlboro, MD.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#006422">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='22' y='10' width='20' height='44' rx='6' fill='%23faf8f2' stroke='%23006422' stroke-width='3'/%3E%3Cpath d='M34 16 L24 34 L31 34 L28 48 L40 28 L33 28 Z' fill='%23ff914d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#006422; --green-dark:#04431a; --orange:#ff914d; --lime:#8dc410;
+  --cream:#faf8f2; --ink:#0f2416;
+  --serif:'Fraunces',Georgia,serif; --sans:'Manrope',system-ui,sans-serif;
+  --max:1180px;
+  --glass-bg:rgba(250,248,242,.55); --glass-border:rgba(15,36,22,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{
+  background:var(--cream); color:var(--ink); font-family:var(--sans);
+  line-height:1.55; overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+.skip-link{
+  position:absolute; left:8px; top:-48px; background:var(--ink); color:var(--cream);
+  padding:10px 16px; border-radius:8px; z-index:1000; transition:top .15s ease;
+  font-weight:700; text-decoration:none;
+}
+.skip-link:focus{top:8px}
+:focus-visible{outline:3px solid var(--orange); outline-offset:3px; border-radius:4px}
+h1,h2,h3{font-family:var(--serif); letter-spacing:-0.01em; color:var(--green-dark)}
+.eyebrow{
+  font-size:12px; font-weight:800; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--orange);
+}
+.container{max-width:var(--max); margin:0 auto; padding:0 24px}
+.btn{
+  display:inline-flex; align-items:center; gap:8px; font-family:var(--sans); font-weight:700;
+  font-size:15px; padding:14px 26px; border-radius:100px; border:2px solid transparent;
+  cursor:pointer; text-decoration:none; transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--orange); color:#2a1204; box-shadow:0 10px 24px -10px rgba(255,145,77,.65)}
+.btn-primary:hover{background:#ff8138}
+.btn-ghost{background:transparent; border-color:var(--ink); color:var(--ink)}
+.btn-ghost:hover{background:var(--ink); color:var(--cream)}
+.btn-light{background:var(--cream); color:var(--green-dark)}
+
+/* ---------- 3D layer ---------- */
+#scene-wrap{
+  position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none;
+  transition:opacity .2s linear;
+}
+#scene{position:absolute; inset:0; width:100%; height:100%; display:block}
+.static-orb{
+  position:absolute; inset:0; display:none; align-items:center; justify-content:center;
+}
+.static-orb svg{width:min(70vw,520px); height:auto}
+.no-3d .static-orb{display:flex}
+.no-3d #scene{display:none}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:sticky; top:0; z-index:100; backdrop-filter:blur(10px) saturate(140%);
+  background:rgba(250,248,242,.82); border-bottom:1px solid rgba(15,36,22,.08);
+}
+.nav-row{display:flex; align-items:center; justify-content:space-between; padding:14px 24px; max-width:var(--max); margin:0 auto}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink)}
+.brand svg{width:38px; height:38px; flex-shrink:0}
+.brand-word{font-family:var(--serif); font-weight:700; font-size:18px; line-height:1.1; color:var(--green-dark)}
+.brand-word small{display:block; font-family:var(--sans); font-weight:700; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--orange)}
+.nav-links{display:flex; align-items:center; gap:30px; list-style:none}
+.nav-links a{font-weight:700; font-size:14.5px; text-decoration:none; color:var(--ink); position:relative; padding:4px 0}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--orange);transition:width .2s ease}
+.nav-links a:hover::after{width:100%}
+.nav-actions{display:flex; align-items:center; gap:14px}
+.hamburger{
+  display:none; width:44px; height:44px; border-radius:10px; border:2px solid var(--ink);
+  background:transparent; cursor:pointer; position:relative;
+}
+.hamburger span, .hamburger span::before, .hamburger span::after{
+  content:''; position:absolute; left:0; right:0; height:2px; background:var(--ink); transition:transform .2s ease, opacity .2s ease;
+}
+.hamburger span{top:21px; left:11px; right:11px}
+.hamburger span::before{top:-7px}
+.hamburger span::after{top:7px}
+.hamburger[aria-expanded="true"] span{background:transparent}
+.hamburger[aria-expanded="true"] span::before{transform:translateY(7px) rotate(45deg)}
+.hamburger[aria-expanded="true"] span::after{transform:translateY(-7px) rotate(-45deg)}
+.mobile-panel{
+  display:none; flex-direction:column; gap:2px; padding:8px 24px 20px; background:var(--cream);
+  border-bottom:1px solid rgba(15,36,22,.08);
+}
+.mobile-panel a{
+  padding:14px 4px; font-weight:700; font-size:16px; text-decoration:none; color:var(--ink);
+  border-bottom:1px solid rgba(15,36,22,.08);
+}
+.mobile-panel .btn{margin-top:12px; justify-content:center}
+body.menu-open .mobile-panel{display:flex}
+@media (max-width:900px){
+  .nav-links{display:none}
+  .nav-actions .btn-primary{display:none}
+  .hamburger{display:block}
+}
+
+/* ---------- Sections shared ---------- */
+section{position:relative; z-index:1}
+.section-head{max-width:640px; margin:0 auto 44px; text-align:center}
+.section-head h2{font-size:clamp(30px,4.2vw,44px); margin-top:10px}
+.section-head p{color:rgba(15,36,22,.72); font-size:16px; margin-top:12px}
+
+/* ---------- Hero ---------- */
+#hero{
+  min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:120px 24px 80px; position:relative;
+}
+.hero-inner{max-width:760px; display:flex; flex-direction:column; align-items:center; gap:22px}
+#hero .eyebrow{
+  padding:8px 16px; border:1.5px solid rgba(15,36,22,.18); border-radius:100px;
+  background:var(--glass-bg); backdrop-filter:blur(8px);
+}
+#hero h1{font-size:clamp(44px,8vw,84px); line-height:1.02; color:var(--green-dark)}
+#hero h1 em{font-style:normal; color:var(--orange)}
+.mission{font-size:clamp(17px,2.2vw,21px); font-weight:600; color:var(--ink); max-width:520px}
+.hero-ctas{display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-top:6px}
+.scroll-cue{
+  position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:6px; font-size:11px;
+  font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--green-dark); opacity:.7;
+}
+.scroll-cue svg{animation:bob 1.8s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){ .scroll-cue svg{animation:none} }
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ---------- Why us ---------- */
+#why{padding:140px 0 120px}
+.why-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:22px; max-width:920px; margin:0 auto}
+@media (max-width:720px){.why-grid{grid-template-columns:1fr}}
+.why-card{
+  background:var(--glass-bg); border:1px solid var(--glass-border); backdrop-filter:blur(14px) saturate(140%);
+  border-radius:20px; padding:26px 26px 24px; transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+.why-card .ic{width:42px; height:42px; color:var(--orange); margin-bottom:14px}
+.why-card h3{font-size:19px; margin-bottom:8px; color:var(--green-dark)}
+.why-card p{font-size:14.5px; color:rgba(15,36,22,.78)}
+.why-card.active{
+  border-color:var(--orange); transform:translateY(-4px);
+  box-shadow:0 18px 40px -20px rgba(255,145,77,.45);
+}
+.hotspot-label{
+  position:fixed; z-index:5; pointer-events:none; opacity:0; transition:opacity .25s ease;
+  transform:translate(-50%,-130%);
+}
+.hotspot-label.show{opacity:1}
+.hotspot-label .dot{
+  width:10px; height:10px; border-radius:50%; background:var(--orange); margin:0 auto 8px;
+  box-shadow:0 0 0 5px rgba(255,145,77,.25);
+}
+.hotspot-label .pill{
+  background:var(--glass-bg); border:1px solid var(--glass-border); backdrop-filter:blur(10px);
+  padding:7px 14px; border-radius:100px; font-size:12.5px; font-weight:800; white-space:nowrap;
+  color:var(--green-dark);
+}
+@media (max-width:900px){ .hotspot-label{display:none} }
+
+/* ---------- Menu ---------- */
+#menu{padding:110px 0 120px; background:var(--cream)}
+.tabs{display:flex; justify-content:center; gap:10px; margin-bottom:40px; flex-wrap:wrap}
+.tab-btn{
+  font-family:var(--sans); font-weight:800; font-size:14px; padding:12px 24px; border-radius:100px;
+  border:2px solid var(--ink); background:transparent; color:var(--ink); cursor:pointer;
+}
+.tab-btn[aria-selected="true"]{background:var(--green); border-color:var(--green); color:var(--cream)}
+.menu-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:18px; max-width:1040px; margin:0 auto}
+.menu-panel[hidden]{display:none}
+.menu-card{
+  background:#fff; border:1px solid rgba(15,36,22,.1); border-radius:16px; padding:20px 22px;
+  display:flex; flex-direction:column; gap:8px; transition:box-shadow .2s ease, transform .2s ease;
+}
+.menu-card:hover{box-shadow:0 16px 32px -18px rgba(15,36,22,.25); transform:translateY(-3px)}
+.menu-card-top{display:flex; align-items:flex-start; justify-content:space-between; gap:10px}
+.menu-card h3{font-size:18px; color:var(--green-dark)}
+.price{font-family:var(--serif); font-weight:700; font-size:20px; color:var(--orange); white-space:nowrap}
+.ingredients{font-size:13.5px; color:rgba(15,36,22,.7)}
+.limited-badge{
+  display:inline-block; margin-top:2px; font-size:10.5px; font-weight:800; letter-spacing:.06em;
+  text-transform:uppercase; color:#4a5f00; background:rgba(141,196,16,.22); padding:3px 9px; border-radius:100px;
+  width:fit-content;
+}
+.shots-note{text-align:center; color:rgba(15,36,22,.65); font-size:14px; margin:-18px 0 30px}
+
+/* ---------- Cleanse ---------- */
+#cleanse{padding:100px 0 120px; background:linear-gradient(180deg,var(--cream),#f2efe4)}
+.cleanse-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; margin:0 auto}
+@media (max-width:820px){.cleanse-grid{grid-template-columns:1fr; max-width:420px}}
+.cleanse-card{
+  background:var(--green); color:var(--cream); border-radius:22px; padding:32px 28px; text-align:center;
+  display:flex; flex-direction:column; gap:10px; position:relative; overflow:hidden;
+}
+.cleanse-card.featured{background:var(--orange); color:#2a1204}
+.cleanse-card .days{font-family:var(--serif); font-size:38px; font-weight:700}
+.cleanse-card .count{font-size:14px; opacity:.85}
+.cleanse-card .cprice{font-size:26px; font-weight:800; margin-top:6px}
+.cleanse-card .tbd{font-size:12.5px; opacity:.85; margin-top:4px}
+.cleanse-note{text-align:center; margin-top:34px; font-weight:700; color:var(--green-dark)}
+
+/* ---------- About ---------- */
+#about{padding:110px 0 120px}
+.about-wrap{display:grid; grid-template-columns:.85fr 1.15fr; gap:56px; align-items:center; max-width:1040px; margin:0 auto}
+@media (max-width:820px){.about-wrap{grid-template-columns:1fr}}
+.about-badge-wrap{display:flex; flex-direction:column; align-items:center; gap:18px}
+.about-mark{
+  width:220px; height:220px; border-radius:50%; background:radial-gradient(circle at 32% 28%,var(--lime),var(--green) 65%);
+  display:flex; align-items:center; justify-content:center; box-shadow:0 30px 60px -30px rgba(0,100,34,.55);
+}
+.about-mark svg{width:60%; height:60%}
+.credentials{display:flex; flex-wrap:wrap; gap:8px; justify-content:center}
+.credential{
+  font-size:12px; font-weight:800; padding:6px 14px; border-radius:100px; background:rgba(0,100,34,.1);
+  color:var(--green-dark); border:1px solid rgba(0,100,34,.2);
+}
+.about-copy p{margin-bottom:16px; color:rgba(15,36,22,.85); font-size:15.5px}
+.about-copy strong{color:var(--green-dark)}
+.about-copy .founder-name{font-family:var(--serif); font-size:15px; color:var(--orange); font-weight:700}
+
+/* ---------- Footer ---------- */
+footer{background:var(--ink); color:var(--cream); padding:70px 0 30px}
+.footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; max-width:var(--max); margin:0 auto; padding:0 24px}
+@media (max-width:760px){.footer-grid{grid-template-columns:1fr; gap:36px}}
+footer h4{font-family:var(--serif); font-size:18px; margin-bottom:14px; color:var(--lime)}
+.footer-brand{display:flex; align-items:center; gap:10px; margin-bottom:14px}
+.footer-brand svg{width:36px; height:36px}
+.footer-brand span{font-family:var(--serif); font-weight:700; font-size:18px}
+footer p{font-size:14px; color:rgba(250,248,242,.75); line-height:1.7}
+.newsletter{display:flex; gap:8px; margin-top:14px; flex-wrap:wrap}
+.newsletter input{
+  flex:1 1 180px; padding:11px 14px; border-radius:10px; border:1px solid rgba(250,248,242,.25);
+  background:rgba(250,248,242,.08); color:var(--cream); font-family:var(--sans); font-size:14px;
+}
+.newsletter input::placeholder{color:rgba(250,248,242,.5)}
+.newsletter button{
+  flex:0 0 auto; padding:11px 20px; border-radius:10px; border:none; background:var(--orange);
+  color:#2a1204; font-weight:800; cursor:pointer; font-family:var(--sans); font-size:14px;
+}
+.newsletter-msg{font-size:13px; color:var(--lime); margin-top:8px; min-height:18px}
+.footer-list{list-style:none; display:flex; flex-direction:column; gap:10px}
+.footer-list a{font-size:14px; color:rgba(250,248,242,.85); text-decoration:none}
+.footer-list a:hover{color:var(--orange)}
+.social-row{display:flex; gap:14px; margin-top:16px}
+.social-row a{
+  width:38px; height:38px; border-radius:50%; border:1px solid rgba(250,248,242,.25);
+  display:flex; align-items:center; justify-content:center; text-decoration:none;
+}
+.social-row a:hover{background:var(--orange); border-color:var(--orange)}
+.social-row svg{width:18px; height:18px; color:var(--cream)}
+.footer-bottom{
+  max-width:var(--max); margin:50px auto 0; padding:20px 24px 0; border-top:1px solid rgba(250,248,242,.15);
+  font-size:12.5px; color:rgba(250,248,242,.55);
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div id="scene-wrap" aria-hidden="true">
+  <canvas id="scene"></canvas>
+  <div class="static-orb">
+    <svg viewBox="0 0 400 400" role="img" aria-label="Illustration of a citrus slice inside a glowing juice orb">
+      <defs>
+        <radialGradient id="orbGrad" cx="35%" cy="30%" r="75%">
+          <stop offset="0%" stop-color="#8dc410"/>
+          <stop offset="55%" stop-color="#006422"/>
+          <stop offset="100%" stop-color="#04431a"/>
+        </radialGradient>
+      </defs>
+      <circle cx="200" cy="200" r="150" fill="url(#orbGrad)"/>
+      <circle cx="200" cy="200" r="110" fill="#fff7e6" opacity="0.9"/>
+      <g stroke="#ff914d" stroke-width="4" opacity="0.85">
+        <line x1="200" y1="95" x2="200" y2="305"/>
+        <line x1="118" y1="127" x2="282" y2="273"/>
+        <line x1="95" y1="200" x2="305" y2="200"/>
+        <line x1="118" y1="273" x2="282" y2="127"/>
+      </g>
+      <circle cx="200" cy="200" r="110" fill="none" stroke="#ff914d" stroke-width="8"/>
+    </svg>
+  </div>
+</div>
+
+<div id="hotspotLabel" class="hotspot-label" aria-hidden="true">
+  <div class="dot"></div>
+  <div class="pill" id="hotspotText">Cold-pressed, always</div>
+</div>
+
+<header class="nav">
+  <div class="nav-row">
+    <a href="#hero" class="brand" aria-label="Juice STUFF plus More home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="22" y="10" width="20" height="44" rx="6" fill="#faf8f2" stroke="#006422" stroke-width="3"/><path d="M34 16 L24 34 L31 34 L28 48 L40 28 L33 28 Z" fill="#ff914d"/></svg>
+      <span class="brand-word">Juice "STUFF" + More<small>The Juice Plug</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#why">Why us</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#menu" class="btn btn-primary">Order Now</a>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobilePanel" aria-label="Toggle menu"><span></span></button>
+    </div>
+  </div>
+  <nav class="mobile-panel" id="mobilePanel">
+    <a href="#menu">Menu</a>
+    <a href="#why">Why us</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="#menu" class="btn btn-primary">Order Now</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section id="hero">
+    <div class="hero-inner">
+      <span class="eyebrow">Juice "STUFF" + More, LLC · Upper Marlboro, MD</span>
+      <h1>Stay charged.<br><em>Stay juicy.</em></h1>
+      <p class="mission">Real ingredients + real intention = real results.</p>
+      <div class="hero-ctas">
+        <a href="#menu" class="btn btn-primary">View the Menu</a>
+        <a href="#cleanse" class="btn btn-ghost">Explore Cleanse Programs</a>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      Scroll
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M1 1L8 8L15 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+  </section>
+
+  <section id="why">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Why Juice STUFF + More</span>
+        <h2>Pressed with purpose</h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card" data-hotspot="0">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2C12 2 5 11 5 15.5C5 19.09 8.13 22 12 22C15.87 22 19 19.09 19 15.5C19 11 12 2 12 2Z" stroke="currentColor" stroke-width="1.6"/></svg>
+          <h3>Cold-pressed, always</h3>
+          <p>Hydraulic-pressed, not spun in a centrifuge — so the enzymes and nutrients heat destroys stay intact.</p>
+        </div>
+        <div class="why-card" data-hotspot="1">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="9" r="6" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 14L7 22L12 19L17 22L15.5 14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <h3>Certified, not guessed</h3>
+          <p>Every blend is developed by a certified juice therapist and holistic health practitioner.</p>
+        </div>
+        <div class="why-card" data-hotspot="2">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9H21M8 3V6M16 3V6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <h3>Built for fasting</h3>
+          <p>Structured 1, 3, and 5-day reset programs — now booking for the 2026 fast.</p>
+        </div>
+        <div class="why-card" data-hotspot="3">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 4C20 4 10 3 6 9C3 13 4 19 4 19C4 19 10 20 14 16C18 12 20 4 20 4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 19L11 12" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <h3>100% organic produce</h3>
+          <p>Real fruit and vegetables — no concentrate, no fillers.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="menu">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">The Menu</span>
+        <h2>12oz juices &amp; 4oz shots</h2>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Menu categories">
+        <button class="tab-btn" role="tab" id="tab-juices" aria-controls="panel-juices" aria-selected="true">12oz Juices</button>
+        <button class="tab-btn" role="tab" id="tab-shots" aria-controls="panel-shots" aria-selected="false" tabindex="-1">Immunity Shots</button>
+      </div>
+
+      <div class="menu-panel menu-grid" id="panel-juices" role="tabpanel" aria-labelledby="tab-juices">
+        <article class="menu-card"><div class="menu-card-top"><h3>Greenergy</h3><span class="price">$7</span></div><p class="ingredients">Spinach, celery, cucumber, green apple, pineapple, ginger, lime, mint</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Green Fuel</h3><span class="price">$7</span></div><p class="ingredients">Cucumber, pineapple, ginger, lemon</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Green Surge</h3><span class="price">$7</span></div><p class="ingredients">Kale, cucumber, fuji apple, lemon</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Watermelon Wave</h3><span class="price">$5</span></div><p class="ingredients">Watermelon, lemon, ginger</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Red Voltage</h3><span class="price">$7</span></div><p class="ingredients">Beets, apple, carrot, lemon, ginger</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Purple Power</h3><span class="price">$9</span></div><p class="ingredients">Purple cabbage, pineapple, lime</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Blue Energy</h3><span class="price">$7</span></div><span class="limited-badge">Limited</span><p class="ingredients">Soursop, apple, pineapple, blue spirulina, lemon, ginger</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Golden Boost</h3><span class="price">$7</span></div><p class="ingredients">Apple, carrot, ginger, lemon</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Sugar Reset</h3><span class="price">$7</span></div><span class="limited-badge">Limited</span><p class="ingredients">Cucumber, apple, spirulina, chlorella, lime</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Island Charge</h3><span class="price">$9</span></div><span class="limited-badge">Limited</span><p class="ingredients">Soursop, pineapple, coconut water</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Pineapple Burst</h3><span class="price">$7</span></div><span class="limited-badge">Limited</span><p class="ingredients">Pineapple, apple, ginger, turmeric</p></article>
+      </div>
+
+      <div class="menu-panel menu-grid" id="panel-shots" role="tabpanel" aria-labelledby="tab-shots" hidden>
+        <p class="shots-note" style="grid-column:1/-1">4oz Immunity Shots — $4 each</p>
+        <article class="menu-card"><div class="menu-card-top"><h3>Daily Spark</h3><span class="price">$4</span></div><p class="ingredients">Soursop, carrot, lemon, pineapple</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Turmeric Ignite</h3><span class="price">$4</span></div><p class="ingredients">Orange, turmeric, ginger, lemon, black pepper</p></article>
+        <article class="menu-card"><div class="menu-card-top"><h3>Root Charge</h3><span class="price">$4</span></div><p class="ingredients">Burdock root, ginger root, pineapple</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="cleanse">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Reset &amp; Cleanse</span>
+        <h2>1, 3 &amp; 5-day programs</h2>
+        <p>Structured juice cleanses built by a certified juice therapist — now booking for the 2026 fast.</p>
+      </div>
+      <div class="cleanse-grid">
+        <div class="cleanse-card featured">
+          <div class="days">1-Day Reset</div>
+          <div class="count">Six juices</div>
+          <div class="cprice">$48</div>
+        </div>
+        <div class="cleanse-card">
+          <div class="days">3-Day Reset</div>
+          <div class="count">Eighteen juices</div>
+          <div class="tbd">Price TBD — confirm before launch</div>
+        </div>
+        <div class="cleanse-card">
+          <div class="days">5-Day Reset</div>
+          <div class="count">Thirty juices</div>
+          <div class="tbd">Price TBD — confirm before launch</div>
+        </div>
+      </div>
+      <p class="cleanse-note">Now booking for the 2026 fast — <a href="#contact" style="color:var(--orange)">reach out to reserve your spot</a>.</p>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container about-wrap">
+      <div class="about-badge-wrap">
+        <div class="about-mark">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8" y="2" width="8" height="18" rx="3" fill="#faf8f2"/><path d="M13.5 6L9.5 13H12.5L11 18L16 11H13L13.5 6Z" fill="#ff914d"/></svg>
+        </div>
+        <div class="credentials">
+          <span class="credential">Certified Juice Therapist</span>
+          <span class="credential">Holistic Health Practitioner</span>
+        </div>
+      </div>
+      <div class="about-copy">
+        <span class="eyebrow">About</span>
+        <h2 style="margin:10px 0 18px">Meet The Juice Plug</h2>
+        <p>Juice "STUFF" + More, LLC believes wellness should feel good, taste good, and look good. We're not just a juice brand — we're a lifestyle movement built on health, hustle, and real community. Our mission is simple: to keep you charged, balanced, and feeling your absolute best, every single day.</p>
+        <p>Founded by <span class="founder-name">Lasharn D. Hamilton</span>, aka The Juice Plug, our brand was born out of a personal journey of healing and transformation. Lasharn is a Certified Juice Therapist and Holistic Health Practitioner. What started as a private quest for better energy and healthier habits became a passion for sharing fresh, natural fuel with the people around us. The more we pressed, blended, and created, the more it became clear:</p>
+        <p><strong>Real ingredients + real intention = real results.</strong></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="22" y="10" width="20" height="44" rx="6" fill="#faf8f2" stroke="#8dc410" stroke-width="3"/><path d="M34 16 L24 34 L31 34 L28 48 L40 28 L33 28 Z" fill="#ff914d"/></svg>
+        <span>Juice "STUFF" + More</span>
+      </div>
+      <p>Cold-pressed juices, smoothies, and healthy snacks made by hand in Upper Marlboro, MD.</p>
+      <form class="newsletter" id="newsletterForm">
+        <label for="newsletterEmail" class="visually-hidden" style="position:absolute;left:-9999px">Email address</label>
+        <input type="email" id="newsletterEmail" placeholder="Your email" required>
+        <button type="submit">Join</button>
+      </form>
+      <p class="newsletter-msg" id="newsletterMsg" role="status"></p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul class="footer-list">
+        <li><a href="tel:13016605577">(301) 660-5577</a></li>
+        <li><a href="mailto:juicestuffplusmore@gmail.com">juicestuffplusmore@gmail.com</a></li>
+        <li>Upper Marlboro, MD 20774</li>
+      </ul>
+      <div class="social-row">
+        <a href="https://www.instagram.com/juicestuffplusmore" target="_blank" rel="noopener" aria-label="Juice STUFF plus More on Instagram">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/></svg>
+        </a>
+        <a href="https://facebook.com/profile.php?id=61585725634756" target="_blank" rel="noopener" aria-label="Juice STUFF plus More on Facebook">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M14 8.5H16.5V5H14C12.07 5 10.5 6.57 10.5 8.5V11H8.5V14H10.5V19H13.5V14H16L16.5 11H13.5V9C13.5 8.72 13.72 8.5 14 8.5Z" fill="currentColor"/></svg>
+        </a>
+      </div>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul class="footer-list">
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#why">Why us</a></li>
+        <li><a href="#cleanse">Cleanse programs</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 Juice "STUFF" + More, LLC. Upper Marlboro, MD 20774.
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- feature detection ---------- */
+  function hasWebGL(){
+    try{
+      var c = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+    }catch(e){ return false; }
+  }
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile = window.matchMedia('(max-width:760px)').matches || /Mobi|Android/i.test(navigator.userAgent);
+  var webglOK = hasWebGL() && typeof THREE !== 'undefined';
+
+  if(!webglOK){
+    document.body.classList.add('no-3d');
+  }
+
+  /* ---------- nav ---------- */
+  var hamburger = document.getElementById('hamburger');
+  hamburger.addEventListener('click', function(){
+    var open = document.body.classList.toggle('menu-open');
+    hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.querySelectorAll('.mobile-panel a').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.body.classList.remove('menu-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && document.body.classList.contains('menu-open')){
+      document.body.classList.remove('menu-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.focus();
+    }
+  });
+
+  /* ---------- menu tabs ---------- */
+  var tabs = [document.getElementById('tab-juices'), document.getElementById('tab-shots')];
+  var panels = [document.getElementById('panel-juices'), document.getElementById('panel-shots')];
+  function selectTab(i){
+    tabs.forEach(function(t, idx){
+      var active = idx === i;
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+      t.tabIndex = active ? 0 : -1;
+      panels[idx].hidden = !active;
+    });
+  }
+  tabs.forEach(function(t, idx){
+    t.addEventListener('click', function(){ selectTab(idx); });
+    t.addEventListener('keydown', function(e){
+      if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+        var next = e.key === 'ArrowRight' ? (idx + 1) % tabs.length : (idx - 1 + tabs.length) % tabs.length;
+        tabs[next].focus();
+        selectTab(next);
+      }
+    });
+  });
+
+  /* ---------- newsletter (static, no backend) ---------- */
+  var form = document.getElementById('newsletterForm');
+  var msg = document.getElementById('newsletterMsg');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    msg.textContent = "You're on the list — thanks for staying charged.";
+    form.reset();
+  });
+
+  /* ---------- scroll utility ---------- */
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+  function lerp(a, b, t){ return a + (b - a) * t; }
+
+  var whySection = document.getElementById('why');
+  var menuSection = document.getElementById('menu');
+  var heroWrap = document.getElementById('scene-wrap');
+
+  function getWhyProgress(){
+    var rect = whySection.getBoundingClientRect();
+    var total = rect.height + window.innerHeight;
+    var passed = window.innerHeight - rect.top;
+    return clamp(passed / total, 0, 1);
+  }
+  function getSettleProgress(){
+    var rect = menuSection.getBoundingClientRect();
+    return clamp(1 - rect.top / window.innerHeight, 0, 1);
+  }
+  function heroWrapInView(){
+    var rect = menuSection.getBoundingClientRect();
+    return rect.bottom > -50;
+  }
+
+  /* ---------- static hotspot label positioning fallback (no-3d skips this) ---------- */
+  var hotspotLabel = document.getElementById('hotspotLabel');
+  var hotspotText = document.getElementById('hotspotText');
+  var whyCards = Array.prototype.slice.call(document.querySelectorAll('.why-card'));
+  var hotspotTitles = whyCards.map(function(c){ return c.querySelector('h3').textContent; });
+
+  function setActiveCard(i){
+    whyCards.forEach(function(c, idx){ c.classList.toggle('active', idx === i); });
+  }
+
+  if(!webglOK){
+    /* Without 3D, still cycle the active-card highlight with scroll, and settle
+       the static hero art out of the way before the menu the same way the
+       WebGL scene does, so it never overlaps real content below the fold. */
+    function updateStaticActive(){
+      var p = getWhyProgress();
+      var idx = clamp(Math.floor(p * whyCards.length), 0, whyCards.length - 1);
+      setActiveCard(idx);
+
+      var settleP = getSettleProgress();
+      heroWrap.style.opacity = String(1 - settleP);
+      heroWrap.style.display = heroWrapInView() ? 'block' : 'none';
+    }
+    window.addEventListener('scroll', updateStaticActive, { passive: true });
+    updateStaticActive();
+    return; // no three.js work below
+  }
+
+  /* =====================================================================
+     THREE.JS SCENE
+  ===================================================================== */
+  var canvas = document.getElementById('scene');
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 100);
+  var cameraRig = new THREE.Group();
+  cameraRig.add(camera);
+  camera.position.set(0, 0, 6.2);
+  scene.add(cameraRig);
+
+  var heroGroup = new THREE.Group();
+  scene.add(heroGroup);
+
+  /* ---- simplex noise (Ashima Arts, condensed) ---- */
+  var noiseGLSL = [
+    "vec3 mod289(vec3 x){return x - floor(x * (1.0/289.0)) * 289.0;}",
+    "vec4 mod289(vec4 x){return x - floor(x * (1.0/289.0)) * 289.0;}",
+    "vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}",
+    "vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}",
+    "float snoise(vec3 v){",
+    "const vec2 C = vec2(1.0/6.0, 1.0/3.0); const vec4 D = vec4(0.0,0.5,1.0,2.0);",
+    "vec3 i = floor(v + dot(v, C.yyy)); vec3 x0 = v - i + dot(i, C.xxx);",
+    "vec3 g = step(x0.yzx, x0.xyz); vec3 l = 1.0 - g; vec3 i1 = min(g.xyz, l.zxy); vec3 i2 = max(g.xyz, l.zxy);",
+    "vec3 x1 = x0 - i1 + C.xxx; vec3 x2 = x0 - i2 + C.yyy; vec3 x3 = x0 - D.yyy;",
+    "i = mod289(i);",
+    "vec4 p = permute(permute(permute(i.z + vec4(0.0, i1.z, i2.z, 1.0)) + i.y + vec4(0.0, i1.y, i2.y, 1.0)) + i.x + vec4(0.0, i1.x, i2.x, 1.0));",
+    "float n_ = 0.142857142857; vec3 ns = n_ * D.wyz - D.xzx;",
+    "vec4 j = p - 49.0 * floor(p * ns.z * ns.z);",
+    "vec4 x_ = floor(j * ns.z); vec4 y_ = floor(j - 7.0 * x_);",
+    "vec4 x = x_ *ns.x + ns.yyyy; vec4 y = y_ *ns.x + ns.yyyy; vec4 h = 1.0 - abs(x) - abs(y);",
+    "vec4 b0 = vec4(x.xy, y.xy); vec4 b1 = vec4(x.zw, y.zw);",
+    "vec4 s0 = floor(b0)*2.0 + 1.0; vec4 s1 = floor(b1)*2.0 + 1.0; vec4 sh = -step(h, vec4(0.0));",
+    "vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy; vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;",
+    "vec3 p0 = vec3(a0.xy, h.x); vec3 p1 = vec3(a0.zw, h.y); vec3 p2 = vec3(a1.xy, h.z); vec3 p3 = vec3(a1.zw, h.w);",
+    "vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2,p2), dot(p3,p3)));",
+    "p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;",
+    "vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0); m = m * m;",
+    "return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));",
+    "}"
+  ].join("\n");
+
+  /* ---- orb ---- */
+  var orbGeo = new THREE.IcosahedronGeometry(1.5, isMobile ? 3 : 4);
+  var orbMat = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+      uAmp: { value: reducedMotion ? 0.0 : 0.10 },
+      uFreq: { value: 1.6 },
+      uColorGreen: { value: new THREE.Color(0x006422) },
+      uColorLime: { value: new THREE.Color(0x8dc410) },
+      uColorOrange: { value: new THREE.Color(0xff914d) },
+      uOpacity: { value: 0.94 }
+    },
+    vertexShader: [
+      "varying vec3 vNormal;",
+      "varying vec3 vViewDir;",
+      "varying float vDisp;",
+      "uniform float uTime; uniform float uAmp; uniform float uFreq;",
+      noiseGLSL,
+      "void main(){",
+      "  vNormal = normalize(normalMatrix * normal);",
+      "  float n = snoise(position * uFreq + vec3(0.0, uTime * 0.18, uTime * 0.12));",
+      "  vDisp = n;",
+      "  vec3 displaced = position + normal * n * uAmp;",
+      "  vec4 mv = modelViewMatrix * vec4(displaced, 1.0);",
+      "  vViewDir = normalize(-mv.xyz);",
+      "  gl_Position = projectionMatrix * mv;",
+      "}"
+    ].join("\n"),
+    fragmentShader: [
+      "varying vec3 vNormal; varying vec3 vViewDir; varying float vDisp;",
+      "uniform vec3 uColorGreen; uniform vec3 uColorLime; uniform vec3 uColorOrange; uniform float uOpacity;",
+      "void main(){",
+      "  float h = clamp(vNormal.y * 0.5 + 0.5 + vDisp * 0.15, 0.0, 1.0);",
+      "  vec3 base = mix(uColorGreen, uColorLime, smoothstep(0.0, 0.6, h));",
+      "  base = mix(base, uColorOrange, smoothstep(0.65, 1.0, h));",
+      "  float fresnel = pow(1.0 - max(dot(vNormal, vViewDir), 0.0), 2.2);",
+      "  vec3 col = mix(base, vec3(1.0, 0.98, 0.9), fresnel * 0.55);",
+      "  gl_FragColor = vec4(col, uOpacity);",
+      "}"
+    ].join("\n"),
+    transparent: true
+  });
+  var orb = new THREE.Mesh(orbGeo, orbMat);
+  heroGroup.add(orb);
+
+  /* ---- citrus slice ---- */
+  function drawCitrusTexture(){
+    var size = 512;
+    var cnv = document.createElement('canvas');
+    cnv.width = cnv.height = size;
+    var ctx = cnv.getContext('2d');
+    var cx = size / 2, cy = size / 2, r = size * 0.46;
+    ctx.clearRect(0, 0, size, size);
+    var rind = ctx.createRadialGradient(cx, cy, r * 0.86, cx, cy, r);
+    rind.addColorStop(0, '#ff914d');
+    rind.addColorStop(1, '#e6712f');
+    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fillStyle = rind; ctx.fill();
+    ctx.beginPath(); ctx.arc(cx, cy, r * 0.88, 0, Math.PI * 2); ctx.fillStyle = '#fff6df'; ctx.fill();
+    var wedges = 11;
+    ctx.save();
+    ctx.translate(cx, cy);
+    for(var i = 0; i < wedges; i++){
+      ctx.rotate((Math.PI * 2) / wedges);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.arc(0, 0, r * 0.84, -0.14, 0.14);
+      ctx.closePath();
+      ctx.fillStyle = i % 2 === 0 ? 'rgba(255,214,140,0.55)' : 'rgba(255,193,110,0.4)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(230,113,47,0.5)';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+    ctx.restore();
+    ctx.beginPath(); ctx.arc(cx, cy, r * 0.14, 0, Math.PI * 2); ctx.fillStyle = '#fff1cf'; ctx.fill();
+    var tex = new THREE.CanvasTexture(cnv);
+    tex.needsUpdate = true;
+    return tex;
+  }
+  var sliceGeo = new THREE.CircleGeometry(1.05, 48);
+  var sliceMat = new THREE.MeshBasicMaterial({ map: drawCitrusTexture(), transparent: true, opacity: 0.55, side: THREE.DoubleSide });
+  var slice = new THREE.Mesh(sliceGeo, sliceMat);
+  slice.rotation.x = 0.35;
+  slice.rotation.z = 0.15;
+  slice.position.set(0.1, 0.05, 0.15);
+  heroGroup.add(slice);
+
+  /* ---- droplet particles ---- */
+  var dropCount = isMobile ? 36 : 110;
+  var dropGeo = new THREE.IcosahedronGeometry(0.035, 0);
+  var dropMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8 });
+  var drops = new THREE.InstancedMesh(dropGeo, dropMat, dropCount);
+  var dropData = [];
+  var dropColors = [new THREE.Color(0x8dc410), new THREE.Color(0xff914d), new THREE.Color(0xdff5c8)];
+  var dummy = new THREE.Object3D();
+  for(var i = 0; i < dropCount; i++){
+    var radius = 2.0 + Math.random() * 1.8;
+    var theta = Math.random() * Math.PI * 2;
+    var phi = Math.acos(Math.random() * 2 - 1);
+    var x = radius * Math.sin(phi) * Math.cos(theta);
+    var y = radius * Math.cos(phi) * 0.7;
+    var z = radius * Math.sin(phi) * Math.sin(theta);
+    dropData.push({ x: x, y: y, z: z, speed: 0.15 + Math.random() * 0.3, phase: Math.random() * Math.PI * 2, drift: (Math.random() - 0.5) * 0.3 });
+    dummy.position.set(x, y, z);
+    var s = 0.6 + Math.random() * 0.9;
+    dummy.scale.setScalar(s);
+    dummy.updateMatrix();
+    drops.setMatrixAt(i, dummy.matrix);
+    drops.setColorAt(i, dropColors[i % dropColors.length]);
+  }
+  drops.instanceMatrix.needsUpdate = true;
+  heroGroup.add(drops);
+
+  /* ---- lighting (subtle, mostly for particles) ---- */
+  scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+  var key = new THREE.DirectionalLight(0xffffff, 0.5);
+  key.position.set(3, 4, 5);
+  scene.add(key);
+
+  /* ---- hotspot anchors (local space on orb, angle around Y to face camera) ---- */
+  var anchors = [
+    { angleY: 0.0,               pos: new THREE.Vector3(0, 0.55, 1.55) },
+    { angleY: Math.PI * 0.5,     pos: new THREE.Vector3(1.55, -0.1, 0) },
+    { angleY: Math.PI,           pos: new THREE.Vector3(0, -0.4, -1.55) },
+    { angleY: Math.PI * 1.5,     pos: new THREE.Vector3(-1.55, 0.4, 0) }
+  ];
+
+  /* ---- resize ---- */
+  function onResize(){
+    var w = window.innerWidth, h = window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
+  window.addEventListener('resize', onResize);
+
+  /* ---- cursor parallax ---- */
+  var pointerTarget = { x: 0, y: 0 };
+  var pointerCurrent = { x: 0, y: 0 };
+  var maxTilt = THREE.MathUtils.degToRad(15);
+  if(!reducedMotion && matchMedia('(hover:hover)').matches){
+    window.addEventListener('pointermove', function(e){
+      var nx = (e.clientX / window.innerWidth) * 2 - 1;
+      var ny = (e.clientY / window.innerHeight) * 2 - 1;
+      pointerTarget.x = nx * maxTilt;
+      pointerTarget.y = ny * maxTilt;
+    });
+  }
+
+  /* ---- animate ---- */
+  var clock = new THREE.Clock();
+  var rotY = 0, targetRotY = 0;
+
+  function updateHotspotLabel(activeIdx, whyRect){
+    var inSection = whyRect.top < window.innerHeight * 0.8 && whyRect.bottom > window.innerHeight * 0.2;
+    if(!inSection || isMobile){
+      hotspotLabel.classList.remove('show');
+      return;
+    }
+    var anchor = anchors[activeIdx];
+    var worldPos = anchor.pos.clone();
+    heroGroup.updateMatrixWorld();
+    worldPos.applyMatrix4(heroGroup.matrixWorld);
+    var ndc = worldPos.project(camera);
+    if(ndc.z > 1){ hotspotLabel.classList.remove('show'); return; }
+    var x = (ndc.x * 0.5 + 0.5) * window.innerWidth;
+    var y = (-ndc.y * 0.5 + 0.5) * window.innerHeight;
+    hotspotLabel.style.left = x + 'px';
+    hotspotLabel.style.top = y + 'px';
+    hotspotText.textContent = hotspotTitles[activeIdx];
+    hotspotLabel.classList.add('show');
+  }
+
+  function render(){
+    requestAnimationFrame(render);
+
+    var t = clock.getElapsedTime();
+    orbMat.uniforms.uTime.value = t;
+
+    var running = heroWrapInView();
+    heroWrap.style.display = running ? 'block' : 'none';
+    if(!running) return;
+
+    var whyRect = whySection.getBoundingClientRect();
+    var whyP = getWhyProgress();
+    var settleP = getSettleProgress();
+
+    var activeIdx = clamp(Math.floor(whyP * anchors.length), 0, anchors.length - 1);
+    setActiveCard(whyP > 0.02 && whyP < 0.995 ? activeIdx : (whyP >= 0.995 ? anchors.length - 1 : -1));
+
+    targetRotY = -anchors[activeIdx].angleY;
+    if(!reducedMotion){
+      rotY = lerp(rotY, targetRotY, 0.06);
+      rotY += 0.0016; // gentle idle drift
+    } else {
+      rotY = targetRotY;
+    }
+    heroGroup.rotation.y = rotY;
+    heroGroup.rotation.x = Math.sin(t * 0.15) * (reducedMotion ? 0 : 0.06);
+
+    slice.rotation.z += reducedMotion ? 0 : 0.0025;
+
+    /* settle: shrink, sink, fade as menu approaches */
+    var scale = lerp(1, 0.55, settleP);
+    heroGroup.scale.setScalar(scale);
+    heroGroup.position.y = lerp(0, -1.6, settleP);
+    var fadeOpacity = 1 - settleP;
+    orbMat.uniforms.uOpacity.value = 0.94 * fadeOpacity;
+    sliceMat.opacity = 0.55 * fadeOpacity;
+    dropMat.opacity = 0.8 * fadeOpacity;
+
+    /* droplets drift */
+    if(!reducedMotion){
+      for(var j = 0; j < dropCount; j++){
+        var d = dropData[j];
+        var fy = d.y + Math.sin(t * d.speed + d.phase) * 0.35;
+        var fx = d.x + Math.cos(t * d.speed * 0.7 + d.phase) * d.drift;
+        dummy.position.set(fx, fy, d.z);
+        dummy.scale.setScalar(0.6 + Math.sin(t + d.phase) * 0.2 + 0.7);
+        dummy.updateMatrix();
+        drops.setMatrixAt(j, dummy.matrix);
+      }
+      drops.instanceMatrix.needsUpdate = true;
+    }
+
+    /* camera parallax */
+    if(!reducedMotion){
+      pointerCurrent.x = lerp(pointerCurrent.x, pointerTarget.x, 0.05);
+      pointerCurrent.y = lerp(pointerCurrent.y, pointerTarget.y, 0.05);
+      cameraRig.rotation.y = pointerCurrent.x;
+      cameraRig.rotation.x = pointerCurrent.y;
+    }
+
+    updateHotspotLabel(activeIdx, whyRect);
+
+    renderer.render(scene, camera);
+  }
+  render();
+})();
+</script>
+</body>
+</html>
