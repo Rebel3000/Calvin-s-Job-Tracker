@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  background: #fef9ec;
+  color: #57544e;
+}
+
+:focus-visible {
+  outline: 2px solid #0d0d0d;
+  outline-offset: 2px;
+}
+
+/*
+  These utilities name the type roles used throughout the site (label/headline/body
+  at a given size) rather than raw Tailwind size utilities, so the same visual scale
+  stays consistent everywhere it's used.
+*/
+@layer utilities {
+  .font-label-mono-sm {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .font-label-mono-lg {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .font-headline-xl {
+    font-family: var(--font-serif);
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .font-headline-lg {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.1;
+  }
+  .font-headline-sm {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    line-height: 1.2;
+  }
+  .font-body-lg {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+  .font-body-sm {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
