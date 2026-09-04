@@ -1,0 +1,81 @@
+name: Deploy sites to Pages
+
+on:
+  push:
+    branches:
+      - main
+      - claude/juice-stuff-3d-site-qie9i1
+      - claude/ybe-auto-repair-3d-site
+    paths:
+      - "juice-stuff-plus-more/**"
+      - "ybe-auto-repair/**"
+      - ".github/workflows/deploy-juice-site.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout juice site branch
+        uses: actions/checkout@v4
+        with:
+          ref: claude/juice-stuff-3d-site-qie9i1
+          path: checkout-juice
+
+      - name: Checkout YBE site branch
+        uses: actions/checkout@v4
+        with:
+          ref: claude/ybe-auto-repair-3d-site
+          path: checkout-ybe
+
+      - name: Assemble combined Pages site
+        run: |
+          mkdir -p _pages/juice _pages/ybe
+          cp -r checkout-juice/juice-stuff-plus-more/. _pages/juice/
+          cp -r checkout-ybe/ybe-auto-repair/. _pages/ybe/
+          cat > _pages/index.html <<'EOF'
+          <!doctype html>
+          <html lang="en">
+          <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Client Sites</title>
+          <style>
+            body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#111;color:#f4f4f4;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0}
+            .card{display:flex;flex-direction:column;gap:16px;padding:32px;max-width:420px}
+            a{display:block;padding:18px 22px;background:#1d1d1d;border:1px solid #333;border-radius:10px;color:#fff;text-decoration:none;font-weight:600}
+            a:hover{border-color:#888}
+            h1{font-size:18px;font-weight:600;color:#999;margin:0 0 8px}
+          </style>
+          </head>
+          <body>
+            <div class="card">
+              <h1>Client site previews</h1>
+              <a href="./juice/">Juice "STUFF" + More</a>
+              <a href="./ybe/">YBE Auto Repair Shop</a>
+            </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "_pages"
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
