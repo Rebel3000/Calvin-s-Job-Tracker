@@ -6,9 +6,11 @@ on:
       - main
       - claude/juice-stuff-3d-site-qie9i1
       - claude/ybe-auto-repair-3d-site
+      - claude/calvin-wade-photography
     paths:
       - "juice-stuff-plus-more/**"
       - "ybe-auto-repair/**"
+      - "calvin-wade-photography/**"
       - ".github/workflows/deploy-juice-site.yml"
   workflow_dispatch:
 
@@ -40,11 +42,29 @@ jobs:
           ref: claude/ybe-auto-repair-3d-site
           path: checkout-ybe
 
+      - name: Checkout Calvin Wade Jr. photography branch
+        uses: actions/checkout@v4
+        with:
+          ref: claude/calvin-wade-photography
+          path: checkout-calvin
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build Calvin Wade Jr. photography site
+        working-directory: checkout-calvin/calvin-wade-photography
+        run: |
+          npm ci
+          npm run build
+
       - name: Assemble combined Pages site
         run: |
-          mkdir -p _pages/juice _pages/ybe
+          mkdir -p _pages/juice _pages/ybe _pages/calvin
           cp -r checkout-juice/juice-stuff-plus-more/. _pages/juice/
           cp -r checkout-ybe/ybe-auto-repair/. _pages/ybe/
+          cp -r checkout-calvin/calvin-wade-photography/dist/. _pages/calvin/
           cat > _pages/index.html <<'EOF'
           <!doctype html>
           <html lang="en">
@@ -65,6 +85,7 @@ jobs:
               <h1>Client site previews</h1>
               <a href="./juice/">Juice "STUFF" + More</a>
               <a href="./ybe/">YBE Auto Repair Shop</a>
+              <a href="./calvin/">Calvin Wade Jr. Photography</a>
             </div>
           </body>
           </html>
