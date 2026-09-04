@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YBE Auto Repair Shop | Mechanical &amp; Body Repair, Capitol Heights MD</title>
+<meta name="description" content="Full-service mechanical and body repair in one location. ASE-certified technicians, transparent upfront pricing, no unnecessary upsells. Serving Capitol Heights, MD and nearby communities since 2006. Open 7 days a week.">
+<meta property="og:title" content="YBE Auto Repair Shop — Honest repair, done right the first time">
+<meta property="og:description" content="Mechanical repair, body &amp; paint, and roadside assistance in Capitol Heights, MD. ASE-certified technicians. Open 8:30 AM–6:00 PM, seven days a week.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230A0A0A'/%3E%3Cpath d='M8 40 L56 24 L56 32 L8 48 Z' fill='%238B1A1A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/*
+  Brand guide specifies Libre Baskerville for heading AND body text.
+  Deviation taken here: body copy (paragraphs, service descriptions) uses the
+  system sans stack at 15-16px for on-screen legibility at length. Headings,
+  the nav wordmark, and short emphasis lines keep Libre Baskerville per the
+  guide. Flagging this per the brief's own instruction to surface any
+  typographic deviation rather than swap silently.
+*/
+:root{
+  --ink:#0A0A0A; --paper:#F4EFE6; --white:#FFFFFF; --accent:#8B1A1A;
+  --text:#5F5A52; --muted:#D8D0C3;
+  --serif:'Libre Baskerville',Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --space:8px; --radius:8px;
+  --shadow:0 16px 40px rgba(0,0,0,0.10);
+  --ease:200ms ease;
+  --max:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{background:var(--paper); color:var(--text); font-family:var(--sans); font-size:16px; line-height:1.6}
+img{max-width:100%;display:block}
+a{color:inherit}
+.skip-link{
+  position:absolute; left:8px; top:-56px; background:var(--ink); color:var(--paper);
+  padding:calc(var(--space)*1.5) calc(var(--space)*2); border-radius:var(--radius);
+  z-index:1000; transition:top var(--ease); font-weight:700; text-decoration:none;
+}
+.skip-link:focus{top:8px}
+:focus-visible{outline:3px solid var(--accent); outline-offset:3px; border-radius:4px}
+h1,h2,h3{font-family:var(--serif); color:var(--ink); line-height:1.15; font-weight:700}
+.eyebrow{font-family:var(--sans); font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent)}
+.container{max-width:var(--max); margin:0 auto; padding:0 24px}
+.btn{
+  display:inline-flex; align-items:center; gap:8px; font-family:var(--sans); font-weight:700; font-size:15px;
+  padding:14px 26px; border-radius:var(--radius); border:2px solid transparent; cursor:pointer; text-decoration:none;
+  transition:transform var(--ease), box-shadow var(--ease), background var(--ease);
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--accent); color:var(--paper); box-shadow:var(--shadow)}
+.btn-primary:hover{background:#711414}
+.btn-ghost{background:transparent; border-color:var(--ink); color:var(--ink)}
+.btn-ghost:hover{background:var(--ink); color:var(--paper)}
+.btn-ghost.on-dark{border-color:var(--paper); color:var(--paper)}
+.btn-ghost.on-dark:hover{background:var(--paper); color:var(--ink)}
+
+/* ---------- 3D layer ---------- */
+#scene-wrap{position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none; transition:opacity .2s linear}
+#scene{position:absolute; inset:0; width:100%; height:100%; display:block}
+.static-panel{position:absolute; inset:0; display:none; align-items:center; justify-content:flex-end; padding-right:8vw}
+.static-panel svg{width:min(38vw,420px); height:auto}
+.no-3d .static-panel{display:flex}
+.no-3d #scene{display:none}
+@media (max-width:900px){ .static-panel{justify-content:center; padding-right:0; opacity:.9} }
+
+/* ---------- Nav ---------- */
+.nav{position:sticky; top:0; z-index:100; backdrop-filter:blur(10px) saturate(140%); background:rgba(244,239,230,.88); border-bottom:1px solid rgba(10,10,10,.08)}
+.nav-row{display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:var(--max); margin:0 auto}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink)}
+.brand svg{width:36px; height:36px; flex-shrink:0; border-radius:6px}
+.brand-word{font-family:var(--serif); font-weight:700; font-size:19px; color:var(--ink)}
+.brand-word small{display:block; font-family:var(--sans); font-weight:700; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent)}
+.nav-links{display:flex; align-items:center; gap:30px; list-style:none}
+.nav-links a{font-weight:700; font-size:14.5px; text-decoration:none; color:var(--ink); position:relative; padding:4px 0}
+.nav-links a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--accent);transition:width var(--ease)}
+.nav-links a:hover::after{width:100%}
+.nav-actions{display:flex; align-items:center; gap:14px}
+.hamburger{display:none; width:44px; height:44px; border-radius:var(--radius); border:2px solid var(--ink); background:transparent; cursor:pointer; position:relative}
+.hamburger span, .hamburger span::before, .hamburger span::after{
+  content:''; position:absolute; left:0; right:0; height:2px; background:var(--ink); transition:transform var(--ease), opacity var(--ease);
+}
+.hamburger span{top:21px; left:11px; right:11px}
+.hamburger span::before{top:-7px}
+.hamburger span::after{top:7px}
+.hamburger[aria-expanded="true"] span{background:transparent}
+.hamburger[aria-expanded="true"] span::before{transform:translateY(7px) rotate(45deg)}
+.hamburger[aria-expanded="true"] span::after{transform:translateY(-7px) rotate(-45deg)}
+.mobile-panel{display:none; flex-direction:column; gap:2px; padding:8px 24px 20px; background:var(--paper); border-bottom:1px solid rgba(10,10,10,.08)}
+.mobile-panel a{padding:14px 4px; font-weight:700; font-size:16px; text-decoration:none; color:var(--ink); border-bottom:1px solid rgba(10,10,10,.08)}
+.mobile-panel .btn{margin-top:12px; justify-content:center}
+body.menu-open .mobile-panel{display:flex}
+@media (max-width:900px){ .nav-links{display:none} .nav-actions .btn-primary{display:none} .hamburger{display:block} }
+
+/* ---------- Sections shared ---------- */
+section{position:relative; z-index:1}
+.section-head{max-width:640px; margin:0 auto 44px; text-align:center}
+.section-head h2{font-size:clamp(28px,4vw,40px); margin-top:10px}
+.section-head p{color:var(--text); font-size:16px; margin-top:12px}
+
+/* ---------- Hero ---------- */
+#hero{min-height:100vh; display:flex; align-items:center; padding:120px 24px 80px}
+.hero-inner{max-width:600px; display:flex; flex-direction:column; align-items:flex-start; gap:22px; text-align:left}
+#hero .eyebrow{padding:8px 16px; border:1.5px solid rgba(10,10,10,.18); border-radius:100px; background:rgba(255,255,255,.55); backdrop-filter:blur(8px)}
+#hero h1{font-size:clamp(38px,6vw,60px); letter-spacing:-0.01em}
+.hero-desc{font-size:17px; color:var(--text); max-width:460px}
+.hero-ctas{display:flex; gap:16px; flex-wrap:wrap; margin-top:6px}
+.scroll-cue{position:absolute; bottom:28px; left:24px; display:flex; align-items:center; gap:8px; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); opacity:.65}
+.scroll-cue svg{animation:bob 1.8s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){ .scroll-cue svg{animation:none} }
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ---------- Services ---------- */
+#services{padding:130px 0 130px; min-height:100vh; display:flex; align-items:center}
+.svc-wrap{display:grid; grid-template-columns:minmax(0,400px) 1fr; gap:40px}
+@media (max-width:900px){ .svc-wrap{grid-template-columns:1fr} }
+.svc-list{display:flex; flex-direction:column; gap:4px}
+.svc-item{
+  display:grid; grid-template-columns:44px 1fr; gap:18px; padding:24px 22px; border-radius:var(--radius);
+  border-left:3px solid transparent; transition:background var(--ease), border-color var(--ease);
+}
+.svc-item .ic{width:26px; height:26px; color:var(--ink)}
+.svc-item h3{font-size:19px; margin-bottom:8px}
+.svc-item p{font-size:14.5px; color:var(--text)}
+.svc-item ul{margin-top:8px; padding-left:18px; font-size:14px; color:var(--text)}
+.svc-item ul li{margin-bottom:4px}
+.svc-item.active{background:var(--paper); border-left-color:var(--accent); box-shadow:var(--shadow)}
+.hotspot-label{position:fixed; z-index:5; pointer-events:none; opacity:0; transition:opacity .25s ease; transform:translate(-50%,-140%)}
+.hotspot-label.show{opacity:1}
+.hotspot-label .dot{width:9px; height:9px; border-radius:50%; background:var(--accent); margin:0 auto 8px; box-shadow:0 0 0 5px rgba(139,26,26,.22)}
+.hotspot-label .pill{background:rgba(255,255,255,.85); border:1px solid rgba(10,10,10,.14); backdrop-filter:blur(10px); padding:6px 13px; border-radius:100px; font-size:12px; font-weight:800; white-space:nowrap; color:var(--ink)}
+@media (max-width:900px){ .hotspot-label{display:none} }
+
+/* ---------- Why YBE ---------- */
+#why{padding:110px 0 120px}
+.why-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; max-width:920px; margin:0 auto}
+@media (max-width:700px){ .why-grid{grid-template-columns:1fr} }
+.why-row{display:flex; align-items:flex-start; gap:14px; padding:18px 20px; background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow)}
+.why-row svg{width:20px; height:20px; flex-shrink:0; margin-top:2px; color:var(--accent)}
+.why-row p{font-family:var(--serif); font-size:15.5px; color:var(--ink); font-weight:700; line-height:1.4}
+
+/* ---------- Roadside (accent — the one deliberate full-bleed use) ---------- */
+#roadside{padding:90px 0; background:var(--accent); color:var(--paper)}
+#roadside .eyebrow{color:var(--paper); opacity:.85}
+#roadside h2{color:var(--paper)}
+#roadside p{color:rgba(244,239,230,.92)}
+.roadside-wrap{display:flex; align-items:center; justify-content:space-between; gap:40px; flex-wrap:wrap; max-width:var(--max); margin:0 auto}
+.roadside-copy{max-width:560px}
+.roadside-list{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px}
+.roadside-chip{font-size:13px; font-weight:700; padding:6px 14px; border-radius:100px; border:1px solid rgba(244,239,230,.4); color:var(--paper)}
+.roadside-ctas{display:flex; gap:14px; flex-wrap:wrap}
+
+/* ---------- Service area ---------- */
+#area{padding:100px 0 110px; background:var(--white)}
+.area-chips{display:flex; flex-wrap:wrap; gap:10px; justify-content:center; max-width:820px; margin:0 auto}
+.area-chip{font-size:14px; font-weight:700; padding:9px 18px; border-radius:var(--radius); background:var(--muted); color:var(--ink)}
+
+/* ---------- Contact / hours ---------- */
+#contact-hours{padding:100px 0 120px}
+.contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:40px; max-width:920px; margin:0 auto}
+@media (max-width:700px){ .contact-grid{grid-template-columns:1fr} }
+.contact-card{background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); padding:32px 28px}
+.contact-card h3{font-size:19px; margin-bottom:16px}
+.contact-line{display:flex; gap:12px; align-items:flex-start; margin-bottom:14px; font-size:15px; color:var(--text)}
+.contact-line svg{width:18px; height:18px; flex-shrink:0; margin-top:2px; color:var(--accent)}
+.contact-line a{color:var(--ink); font-weight:700; text-decoration:none}
+.contact-line a:hover{text-decoration:underline}
+.hours-row{display:flex; justify-content:space-between; font-size:15px; padding:8px 0; border-bottom:1px dashed rgba(10,10,10,.12)}
+.hours-row:last-child{border-bottom:none}
+.hours-row span:first-child{color:var(--ink); font-weight:700}
+
+/* ---------- Footer ---------- */
+footer{background:var(--ink); color:var(--paper); padding:60px 0 30px}
+.footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; max-width:var(--max); margin:0 auto; padding:0 24px}
+@media (max-width:760px){ .footer-grid{grid-template-columns:1fr; gap:32px} }
+footer h4{font-family:var(--serif); font-size:17px; margin-bottom:14px; color:var(--paper)}
+.footer-brand{display:flex; align-items:center; gap:10px; margin-bottom:14px}
+.footer-brand svg{width:34px; height:34px; border-radius:6px}
+.footer-brand span{font-family:var(--serif); font-weight:700; font-size:18px}
+footer p{font-size:14px; color:rgba(244,239,230,.72); line-height:1.7}
+.footer-list{list-style:none; display:flex; flex-direction:column; gap:10px}
+.footer-list a{font-size:14px; color:rgba(244,239,230,.85); text-decoration:none}
+.footer-list a:hover{color:var(--paper); text-decoration:underline}
+.footer-bottom{max-width:var(--max); margin:46px auto 0; padding:20px 24px 0; border-top:1px solid rgba(244,239,230,.15); font-size:12.5px; color:rgba(244,239,230,.55)}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div id="scene-wrap" aria-hidden="true">
+  <canvas id="scene"></canvas>
+  <div class="static-panel">
+    <svg viewBox="0 0 300 220" role="img" aria-label="Illustration of a brushed metal body panel with a dent">
+      <defs>
+        <linearGradient id="panelGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#2a2a2a"/>
+          <stop offset="45%" stop-color="#0A0A0A"/>
+          <stop offset="100%" stop-color="#1c1c1c"/>
+        </linearGradient>
+        <radialGradient id="dentGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#000000" stop-opacity="0.55"/>
+          <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect x="10" y="10" width="280" height="200" rx="14" fill="url(#panelGrad)" stroke="#8B1A1A" stroke-width="2"/>
+      <ellipse cx="110" cy="130" rx="46" ry="30" fill="url(#dentGrad)"/>
+      <circle cx="230" cy="70" r="9" fill="#3a3a3a" stroke="#8B1A1A" stroke-width="2"/>
+      <line x1="60" y1="60" x2="150" y2="40" stroke="#8B1A1A" stroke-width="1.5" opacity="0.6"/>
+    </svg>
+  </div>
+</div>
+
+<div id="hotspotLabel" class="hotspot-label" aria-hidden="true">
+  <div class="dot"></div>
+  <div class="pill" id="hotspotText">Mechanical repair</div>
+</div>
+
+<header class="nav">
+  <div class="nav-row">
+    <a href="#hero" class="brand" aria-label="YBE Auto Repair Shop home">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="10" fill="#0A0A0A"/><path d="M8 40 L56 24 L56 32 L8 48 Z" fill="#8B1A1A"/></svg>
+      <span class="brand-word">YBE Auto Repair<small>Capitol Heights, MD</small></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#why">About</a></li>
+      <li><a href="#area">Service Area</a></li>
+      <li><a href="#contact-hours">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="https://ybe-auto-repair-shop.square.site" target="_blank" rel="noopener" class="btn btn-primary">Book a repair</a>
+      <button class="hamburger" id="hamburger" aria-expanded="false" aria-controls="mobilePanel" aria-label="Toggle menu"><span></span></button>
+    </div>
+  </div>
+  <nav class="mobile-panel" id="mobilePanel">
+    <a href="#services">Services</a>
+    <a href="#why">About</a>
+    <a href="#area">Service Area</a>
+    <a href="#contact-hours">Contact</a>
+    <a href="https://ybe-auto-repair-shop.square.site" target="_blank" rel="noopener" class="btn btn-primary">Book a repair</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section id="hero">
+    <div class="hero-inner">
+      <span class="eyebrow">YBE Auto Repair Shop · Capitol Heights, MD</span>
+      <h1>Honest repair, done right the first time.</h1>
+      <p class="hero-desc">Mechanical and body repair in one location. Transparent pricing, parts tested before replacement, ASE-certified technicians. Open seven days a week.</p>
+      <div class="hero-ctas">
+        <a href="https://ybe-auto-repair-shop.square.site" target="_blank" rel="noopener" class="btn btn-primary">Book a repair</a>
+        <a href="tel:12024553822" class="btn btn-ghost">Call (202) 455-3822</a>
+      </div>
+    </div>
+    <div class="scroll-cue">
+      Scroll to see the fix
+      <svg width="16" height="10" viewBox="0 0 16 10" fill="none" aria-hidden="true"><path d="M1 1L8 8L15 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container svc-wrap">
+      <div>
+        <div class="section-head" style="text-align:left; margin:0 0 30px; max-width:300px">
+          <span class="eyebrow">Services</span>
+          <h2>Two shops, one location</h2>
+        </div>
+        <div class="svc-list">
+          <div class="svc-item" data-hotspot="0">
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a4 4 0 0 1-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 1 5.4-5.4l-2.3 2.3-2-2 2.3-2.3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <div>
+              <h3>Mechanical repair</h3>
+              <p>General automotive repair across domestic, Asian, and European makes.</p>
+              <ul>
+                <li>ASE-certified technicians</li>
+                <li>Parts tested before replacement — not swapped by default</li>
+              </ul>
+            </div>
+          </div>
+          <div class="svc-item" data-hotspot="1">
+            <svg class="ic" viewBox="0 0 24 24" fill="none"><path d="M3 15l1.5-5A2 2 0 0 1 6.4 8.5h11.2A2 2 0 0 1 19.5 10L21 15M3 15h18M3 15v3a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            <div>
+              <h3>Body &amp; paint</h3>
+              <p>Dent and scratch repair, panel matching and refinishing, collision repair.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section id="why">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Why YBE</span>
+        <h2>What you can expect</h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-row"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p>Real neighborhood shop, committed to getting you back on the road quickly and safely</p></div>
+        <div class="why-row"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p>Mechanical and body repairs in one location</p></div>
+        <div class="why-row"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p>Transparent, upfront pricing — no unnecessary upsells</p></div>
+        <div class="why-row"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p>Parts tested before replacement</p></div>
+        <div class="why-row"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p>ASE-certified technicians, all makes and models</p></div>
+        <div class="why-row"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p>Open seven days a week</p></div>
+        <div class="why-row" style="grid-column:1/-1"><svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg><p>Serving the community since 2006</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="roadside">
+    <div class="container roadside-wrap">
+      <div class="roadside-copy">
+        <span class="eyebrow">Roadside Assistance</span>
+        <h2 style="margin-top:10px">Stuck? We'll come to you.</h2>
+        <p style="margin-top:10px">Mobile help in Capitol Heights and nearby communities.</p>
+        <div class="roadside-list">
+          <span class="roadside-chip">Dead battery</span>
+          <span class="roadside-chip">Flat tire</span>
+          <span class="roadside-chip">Fuel delivery</span>
+          <span class="roadside-chip">Lockout</span>
+          <span class="roadside-chip">No-start</span>
+        </div>
+      </div>
+      <div class="roadside-ctas">
+        <a href="tel:12024553822" class="btn" style="background:var(--paper); color:var(--accent)">Call now</a>
+        <a href="sms:12024553822" class="btn btn-ghost on-dark">Text us</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="area">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Service Area</span>
+        <h2>Communities we serve</h2>
+      </div>
+      <div class="area-chips">
+        <span class="area-chip">Capitol Heights, MD</span>
+        <span class="area-chip">Washington, DC</span>
+        <span class="area-chip">District Heights, MD</span>
+        <span class="area-chip">Landover, MD</span>
+        <span class="area-chip">Largo, MD</span>
+        <span class="area-chip">Forestville, MD</span>
+        <span class="area-chip">Hillcrest Heights, MD</span>
+        <span class="area-chip">Hyattsville, MD</span>
+        <span class="area-chip">Lanham, MD</span>
+        <span class="area-chip">New Carrollton, MD</span>
+        <span class="area-chip">Bowie, MD</span>
+        <span class="area-chip">Upper Marlboro, MD</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact-hours">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Contact</span>
+        <h2>Get in touch</h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h3>Reach the shop</h3>
+          <div class="contact-line"><svg viewBox="0 0 24 24" fill="none"><path d="M20 10.5c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="10.5" r="2.5" stroke="currentColor" stroke-width="1.6"/></svg><span>8632 Edgeworth Dr, Capitol Heights, MD 20743</span></div>
+          <div class="contact-line"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 14l5 2v4a2 2 0 0 1-2 2C9.5 22 2 14.5 2 7a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.6"/></svg><a href="tel:12024553822">(202) 455-3822</a>&nbsp;— call or text</div>
+          <div class="contact-line"><svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18v12H3z" stroke="currentColor" stroke-width="1.6"/><path d="M3 7l9 6 9-6" stroke="currentColor" stroke-width="1.6"/></svg><a href="mailto:info@ybecarz.com">info@ybecarz.com</a></div>
+          <div class="contact-line"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><a href="https://ybecarz.com" target="_blank" rel="noopener">ybecarz.com</a></div>
+          <a href="https://ybe-auto-repair-shop.square.site" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top:8px">Book a repair</a>
+        </div>
+        <div class="contact-card">
+          <h3>Hours</h3>
+          <div class="hours-row"><span>Monday – Sunday</span><span>8:30 AM – 6:00 PM</span></div>
+          <p style="margin-top:14px; font-size:13.5px; color:var(--text)">Open seven days a week.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="10" fill="#0A0A0A" stroke="#F4EFE6" stroke-width="2"/><path d="M8 40 L56 24 L56 32 L8 48 Z" fill="#8B1A1A"/></svg>
+        <span>YBE Auto Repair</span>
+      </div>
+      <p>Full-service mechanical and body repair. Serving the community since 2006.</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul class="footer-list">
+        <li><a href="tel:12024553822">(202) 455-3822</a></li>
+        <li><a href="mailto:info@ybecarz.com">info@ybecarz.com</a></li>
+        <li>8632 Edgeworth Dr, Capitol Heights, MD 20743</li>
+      </ul>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul class="footer-list">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#why">Why YBE</a></li>
+        <li><a href="#area">Service area</a></li>
+        <li><a href="https://ybe-auto-repair-shop.square.site" target="_blank" rel="noopener">Book a repair</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- Address, phone, hours, and service area were sourced from public directory listings
+       (Yelp, Facebook, service pages) per the brief, not confirmed directly by the client.
+       Verify these before this page goes live. -->
+  <div class="footer-bottom">&copy; 2026 YBE Auto Repair Shop. Capitol Heights, MD 20743.</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  function hasWebGL(){
+    try{
+      var c = document.createElement('canvas');
+      return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+    }catch(e){ return false; }
+  }
+  var reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile = window.matchMedia('(max-width:760px)').matches || /Mobi|Android/i.test(navigator.userAgent);
+  var webglOK = hasWebGL() && typeof THREE !== 'undefined';
+  if(!webglOK){ document.body.classList.add('no-3d'); }
+
+  /* ---------- nav ---------- */
+  var hamburger = document.getElementById('hamburger');
+  hamburger.addEventListener('click', function(){
+    var open = document.body.classList.toggle('menu-open');
+    hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.querySelectorAll('.mobile-panel a').forEach(function(a){
+    a.addEventListener('click', function(){
+      document.body.classList.remove('menu-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+    });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && document.body.classList.contains('menu-open')){
+      document.body.classList.remove('menu-open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      hamburger.focus();
+    }
+  });
+
+  /* ---------- scroll utility ---------- */
+  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+  function lerp(a, b, t){ return a + (b - a) * t; }
+
+  var servicesSection = document.getElementById('services');
+  var whySection = document.getElementById('why');
+  var heroWrap = document.getElementById('scene-wrap');
+
+  function getServicesProgress(){
+    var rect = servicesSection.getBoundingClientRect();
+    var total = rect.height + window.innerHeight;
+    var passed = window.innerHeight - rect.top;
+    return clamp(passed / total, 0, 1);
+  }
+  function getSettleProgress(){
+    var rect = whySection.getBoundingClientRect();
+    return clamp(1 - rect.top / window.innerHeight, 0, 1);
+  }
+  function heroWrapInView(){
+    var rect = whySection.getBoundingClientRect();
+    return rect.bottom > -50;
+  }
+
+  var hotspotLabel = document.getElementById('hotspotLabel');
+  var hotspotText = document.getElementById('hotspotText');
+  var svcItems = Array.prototype.slice.call(document.querySelectorAll('.svc-item'));
+  var hotspotTitles = svcItems.map(function(c){ return c.querySelector('h3').textContent; });
+
+  function setActiveItem(i){
+    svcItems.forEach(function(c, idx){ c.classList.toggle('active', idx === i); });
+  }
+
+  if(!webglOK){
+    function updateStaticActive(){
+      var p = getServicesProgress();
+      var idx = clamp(Math.floor(p * svcItems.length), 0, svcItems.length - 1);
+      setActiveItem(idx);
+
+      var settleP = getSettleProgress();
+      heroWrap.style.opacity = String(1 - settleP);
+      heroWrap.style.display = heroWrapInView() ? 'block' : 'none';
+    }
+    window.addEventListener('scroll', updateStaticActive, { passive: true });
+    updateStaticActive();
+    return;
+  }
+
+  /* =====================================================================
+     THREE.JS SCENE — a metal body panel that visibly gets fixed
+  ===================================================================== */
+  var canvas = document.getElementById('scene');
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2));
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(38, window.innerWidth / window.innerHeight, 0.1, 100);
+  var cameraRig = new THREE.Group();
+  cameraRig.add(camera);
+  camera.position.set(0, 0, 6.5);
+  scene.add(cameraRig);
+
+  var heroGroup = new THREE.Group();
+  heroGroup.position.x = isMobile ? 0 : 1.7;
+  heroGroup.rotation.set(0.1, -0.32, 0.03);
+  scene.add(heroGroup);
+
+  var PANEL_W = 3.0, PANEL_H = 1.9;
+  var segsX = isMobile ? 28 : 48, segsY = isMobile ? 18 : 30;
+  var panelGeo = new THREE.PlaneGeometry(PANEL_W, PANEL_H, segsX, segsY);
+
+  /* dent center, offset from panel middle — this is also the "Body & paint" hotspot */
+  var dentCx = -0.35, dentCy = -0.25, dentSigma = 0.55;
+  var dentUniforms = { uDentAmount: { value: 1.0 } };
+
+  var panelMat = new THREE.MeshStandardMaterial({
+    color: 0x141414, roughness: 0.22, metalness: 0.82
+  });
+  panelMat.onBeforeCompile = function(shader){
+    shader.uniforms.uDentAmount = dentUniforms.uDentAmount;
+    shader.uniforms.uCx = { value: dentCx };
+    shader.uniforms.uCy = { value: dentCy };
+    shader.uniforms.uSigma = { value: dentSigma };
+    shader.vertexShader = 'uniform float uDentAmount; uniform float uCx; uniform float uCy; uniform float uSigma;\n' + shader.vertexShader;
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <beginnormal_vertex>',
+      [
+        '#include <beginnormal_vertex>',
+        'float dx0 = position.x - uCx;',
+        'float dy0 = position.y - uCy;',
+        'float s2 = uSigma * uSigma;',
+        'float g0 = exp(-(dx0*dx0 + dy0*dy0) / (2.0 * s2));',
+        'float ddx = -0.34 * g0 * (-dx0 / s2) * uDentAmount;',
+        'float ddy = -0.34 * g0 * (-dy0 / s2) * uDentAmount;',
+        'objectNormal = normalize(vec3(-ddx, -ddy, 1.0));'
+      ].join('\n')
+    );
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <begin_vertex>',
+      [
+        '#include <begin_vertex>',
+        'float dxp = position.x - uCx;',
+        'float dyp = position.y - uCy;',
+        'float gp = exp(-(dxp*dxp + dyp*dyp) / (2.0 * uSigma * uSigma));',
+        'transformed.z -= 0.34 * gp * uDentAmount;'
+      ].join('\n')
+    );
+  };
+  var panel = new THREE.Mesh(panelGeo, panelMat);
+  heroGroup.add(panel);
+
+  /* thin backing box for edge thickness / weight */
+  var backingGeo = new THREE.BoxGeometry(PANEL_W * 1.02, PANEL_H * 1.02, 0.1);
+  var backingMat = new THREE.MeshStandardMaterial({ color: 0x0a0a0a, roughness: 0.6, metalness: 0.4 });
+  var backing = new THREE.Mesh(backingGeo, backingMat);
+  backing.position.z = -0.09;
+  heroGroup.add(backing);
+
+  /* scratch marks near the dent, fade out as the panel is "fixed" — plain line
+     geometry rather than a texture decal, since a couple of thin strokes read
+     clearly at this scale without needing a texture sampler at all */
+  var scratchPts = new Float32Array([
+    dentCx - 0.42, dentCy + 0.30, 0.05,   dentCx + 0.05, dentCy - 0.05, 0.05,
+    dentCx - 0.36, dentCy + 0.38, 0.05,   dentCx + 0.10, dentCy + 0.02, 0.05,
+    dentCx - 0.30, dentCy + 0.18, 0.05,   dentCx + 0.30, dentCy - 0.20, 0.05
+  ]);
+  var scratchGeo = new THREE.BufferGeometry();
+  scratchGeo.setAttribute('position', new THREE.BufferAttribute(scratchPts, 3));
+  var scratchMat = new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 });
+  var scratch = new THREE.LineSegments(scratchGeo, scratchMat);
+  heroGroup.add(scratch);
+
+  /* bolt/fastener detail — the literal "Mechanical repair" hotspot anchor */
+  var boltGeo = new THREE.CylinderGeometry(0.09, 0.09, 0.06, 6);
+  var boltMat = new THREE.MeshStandardMaterial({ color: 0x2a2a2a, roughness: 0.35, metalness: 0.75 });
+  var bolt = new THREE.Mesh(boltGeo, boltMat);
+  bolt.rotation.x = Math.PI / 2;
+  bolt.position.set(0.85, 0.55, 0.06);
+  heroGroup.add(bolt);
+
+  var anchors = [
+    { x: 0.85, y: 0.55, z: 0.12 },
+    { x: dentCx, y: dentCy, z: 0.12 }
+  ];
+  var anchorMarkers = anchors.map(function(a){
+    var ringGeo = new THREE.RingGeometry(0.16, 0.19, 32);
+    var ringMat = new THREE.MeshBasicMaterial({ color: 0x8B1A1A, transparent: true, opacity: 0.25, side: THREE.DoubleSide });
+    var ring = new THREE.Mesh(ringGeo, ringMat);
+    ring.position.set(a.x, a.y, a.z);
+    heroGroup.add(ring);
+    return { a: a, mat: ringMat };
+  });
+
+  scene.add(new THREE.HemisphereLight(0xf4efe6, 0x0a0a0a, 0.55));
+  var key = new THREE.DirectionalLight(0xffffff, 0.9);
+  key.position.set(3, 4, 5);
+  scene.add(key);
+  var rim = new THREE.PointLight(0xcc4b3a, 0.7, 6, 2);
+  rim.position.set(-1.6, -0.6, 2.4);
+  scene.add(rim);
+
+  function onResize(){
+    var w = window.innerWidth, h = window.innerHeight;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
+  window.addEventListener('resize', onResize);
+
+  var pointerTarget = { x: 0, y: 0 };
+  var pointerCurrent = { x: 0, y: 0 };
+  var maxTilt = THREE.MathUtils.degToRad(15);
+  if(!reducedMotion && matchMedia('(hover:hover)').matches){
+    window.addEventListener('pointermove', function(e){
+      var nx = (e.clientX / window.innerWidth) * 2 - 1;
+      var ny = (e.clientY / window.innerHeight) * 2 - 1;
+      pointerTarget.x = nx * maxTilt;
+      pointerTarget.y = ny * maxTilt;
+    });
+  }
+
+  var clock = new THREE.Clock();
+
+  function updateHotspotLabel(activeIdx, svcRect){
+    var inSection = svcRect.top < window.innerHeight * 0.8 && svcRect.bottom > window.innerHeight * 0.2;
+    if(!inSection || isMobile || activeIdx < 0){
+      hotspotLabel.classList.remove('show');
+      return;
+    }
+    var anchor = anchors[activeIdx];
+    var worldPos = new THREE.Vector3(anchor.x, anchor.y, anchor.z);
+    heroGroup.updateMatrixWorld();
+    worldPos.applyMatrix4(heroGroup.matrixWorld);
+    var ndc = worldPos.project(camera);
+    if(ndc.z > 1){ hotspotLabel.classList.remove('show'); return; }
+    var x = (ndc.x * 0.5 + 0.5) * window.innerWidth;
+    var y = (-ndc.y * 0.5 + 0.5) * window.innerHeight;
+    hotspotLabel.style.left = x + 'px';
+    hotspotLabel.style.top = y + 'px';
+    hotspotText.textContent = hotspotTitles[activeIdx];
+    hotspotLabel.classList.add('show');
+  }
+
+  function render(){
+    requestAnimationFrame(render);
+
+    var t = clock.getElapsedTime();
+
+    var running = heroWrapInView();
+    heroWrap.style.display = running ? 'block' : 'none';
+    if(!running) return;
+
+    var svcRect = servicesSection.getBoundingClientRect();
+    var svcP = getServicesProgress();
+    var settleP = getSettleProgress();
+
+    var activeIdx = svcP <= 0.01 ? -1 : clamp(Math.floor(svcP * anchors.length), 0, anchors.length - 1);
+    setActiveItem(activeIdx);
+
+    /* dent smooths out and the scratch fades as the user scrolls through Services */
+    dentUniforms.uDentAmount.value = 1 - svcP;
+    scratchMat.opacity = 0.8 * (1 - svcP);
+
+    anchorMarkers.forEach(function(m, idx){
+      var target = idx === activeIdx ? 0.85 : 0.2;
+      m.mat.opacity = lerp(m.mat.opacity, target, 0.12);
+    });
+
+    if(!reducedMotion){
+      heroGroup.rotation.y = -0.4 + Math.sin(t * 0.16) * 0.05;
+    }
+
+    var scale = lerp(1, 0.55, settleP);
+    heroGroup.scale.setScalar(scale);
+    heroGroup.position.y = lerp(0, -1.6, settleP);
+    var fadeOpacity = 1 - settleP;
+    panelMat.opacity = fadeOpacity;
+    panelMat.transparent = settleP > 0;
+    backingMat.opacity = fadeOpacity;
+    backingMat.transparent = settleP > 0;
+    scratchMat.opacity *= fadeOpacity;
+
+    if(!reducedMotion){
+      pointerCurrent.x = lerp(pointerCurrent.x, pointerTarget.x, 0.05);
+      pointerCurrent.y = lerp(pointerCurrent.y, pointerTarget.y, 0.05);
+      cameraRig.rotation.y = pointerCurrent.x;
+      cameraRig.rotation.x = pointerCurrent.y;
+    }
+
+    updateHotspotLabel(activeIdx, svcRect);
+
+    renderer.render(scene, camera);
+  }
+  render();
+})();
+</script>
+</body>
+</html>
